@@ -69,11 +69,10 @@ public class ASTBuilder extends MxstarBaseVisitor<ASTNode> {
         else cur.return_type = null;
 
         if(ctx.functionParameterDef()!=null)
-        {System.out.println(ctx.Identifier().getText());cur.Paralist.addAll(((varDefStatementNode) visit(ctx.functionParameterDef())).list);}
+        {cur.Paralist.addAll(((varDefStatementNode) visit(ctx.functionParameterDef())).list);}
         return cur;
     }
     @Override public ASTNode visitFunctionParameterDef(MxstarParser.FunctionParameterDefContext ctx) {
-        //if(ctx==null) {System.out.println(1);}
         varDefStatementNode cur = new varDefStatementNode(new position(ctx));
         for(int i=0;i<ctx.children.size();++i) {
             if(ctx.children.get(i) instanceof MxstarParser.SingleParameterContext) {
@@ -257,7 +256,6 @@ public class ASTBuilder extends MxstarBaseVisitor<ASTNode> {
         else return new TypeNode(ctx.Void().getText(),0,new position(ctx));
     }
     @Override public ASTNode visitVarType(MxstarParser.VarTypeContext ctx) {
-        System.out.println(ctx.builtinType().getText());
         TypeNode tp = new TypeNode(ctx.builtinType().getText(), (ctx.getChildCount() - 1) / 2,new position(ctx));
         return tp;
     }

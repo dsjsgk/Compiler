@@ -411,7 +411,6 @@ public class SemanticChecker implements ASTvisitor {
     public void visit(SinglevarDefStatementNode tmp) {
         tmp.expr.accept(this);
         Type temp = global.Get_Type(tmp.type);
-       // System.out.println(tmp.type.dim);
         if(!tmp.expr.type.is_null()) if(!temp.equal(tmp.expr.type))
         {
             throw new SemanticError("Wrong Initialize",tmp.pos);
