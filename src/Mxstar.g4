@@ -44,7 +44,7 @@ expression :
     | a=expression op = '||' b=expression #binaryexpr
     | <assoc=right> a=expression '=' b=expression #binaryexpr
     | in=expression Dot out=expression #classexpr
-    | expression New creator #newexpr
+    | New creator #newexpr
     | LambdaStart (LeftParen functionParameterDef? RightParen)? '->' suite LeftParen expressionList? RightParen #lambdaexpr
     | prefixop expression #prefixexpr
     | suffixop expression #suffixexpr
