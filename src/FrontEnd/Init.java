@@ -69,6 +69,7 @@ public class Init implements ASTvisitor {
             global.New_Function(tmp.Name,temp,tmp.pos);
         }
         else {
+
             FuncSymbol temp = new FuncSymbol(tmp.Name);
             temp.type=global.Get_Type(tmp.return_type);
             temp.isinClass=true;
@@ -138,11 +139,6 @@ public class Init implements ASTvisitor {
 
     @Override
     public void visit(UnaryExprNode tmp) {
-
-    }
-
-    @Override
-    public void visit(AssignExprNode tmp) {
 
     }
 

@@ -9,11 +9,15 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import Parser.MxstarLexer;
 import Parser.MxstarParser;
+
+import java.io.FileInputStream;
 import java.io.InputStream;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        InputStream input = System.in;
+//        InputStream input = System.in;
+        String name = "test.mx";
+        FileInputStream input = new FileInputStream(name);
         try {
             ProgramNode rt;
             MxstarLexer lexer = new MxstarLexer(CharStreams.fromStream(input));

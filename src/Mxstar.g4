@@ -2,9 +2,9 @@ grammar Mxstar;
 program: (varDeclarationStmt|classDeclarationStmt|functionDef)*;
 classDeclarationStmt : Class Identifier LeftBrace (constructorDef|varDeclarationStmt|functionDef)* RightBrace ';';
 constructorDef : Identifier '(' ')' suite;
-functionDef : returnType Identifier '(' functionParameterDef ')' suite;
+functionDef : returnType Identifier '(' functionParameterDef? ')' suite;
 singleParameter : varType Identifier;
-functionParameterDef : (singleParameter (',' singleParameter)*)?;
+functionParameterDef : (singleParameter (',' singleParameter)*);
 suite : '{' statement* '}';
 expressionList : expression (',' expression)*;
 statement
@@ -42,7 +42,7 @@ expression :
     | a=expression op = '|' b=expression #binaryexpr
     | a=expression op = '&&' b=expression #binaryexpr
     | a=expression op = '||' b=expression #binaryexpr
-    | <assoc=right> a=expression '=' b=expression #binaryexpr
+    | <assoc=right> a=expression op = '=' b=expression #binaryexpr
     | in=expression Dot out=expression #classexpr
     | New creator #newexpr
     | LambdaStart (LeftParen functionParameterDef? RightParen)? '->' suite LeftParen expressionList? RightParen #lambdaexpr

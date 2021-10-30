@@ -3,7 +3,6 @@ package AST;
 public interface ASTvisitor {
     void visit(ProgramNode tmp);
     void visit(ArrayExprNode tmp);
-    void visit(AssignExprNode tmp);
     void visit(ASTNode tmp);
     void visit(BinaryExprNode tmp);
     void visit(BreakStatementNode tmp);

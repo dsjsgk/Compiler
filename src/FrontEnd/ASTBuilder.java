@@ -67,12 +67,13 @@ public class ASTBuilder extends MxstarBaseVisitor<ASTNode> {
         if(ctx.returnType()!=null)
         cur.return_type = (TypeNode) visit(ctx.returnType());
         else cur.return_type = null;
+
         if(ctx.functionParameterDef()!=null)
-        cur.Paralist.addAll(((varDefStatementNode) visit(ctx.functionParameterDef())).list);
-        else cur.Paralist = null;
+        {System.out.println(ctx.Identifier().getText());cur.Paralist.addAll(((varDefStatementNode) visit(ctx.functionParameterDef())).list);}
         return cur;
     }
     @Override public ASTNode visitFunctionParameterDef(MxstarParser.FunctionParameterDefContext ctx) {
+        //if(ctx==null) {System.out.println(1);}
         varDefStatementNode cur = new varDefStatementNode(new position(ctx));
         for(int i=0;i<ctx.children.size();++i) {
             if(ctx.children.get(i) instanceof MxstarParser.SingleParameterContext) {
@@ -171,7 +172,7 @@ public class ASTBuilder extends MxstarBaseVisitor<ASTNode> {
     @Override public ASTNode visitUnaryexpr(MxstarParser.UnaryexprContext ctx) {
         UnaryExprNode cur = new UnaryExprNode(new position(ctx));
         cur.a = (ExprNode) visit(ctx.expression());
-        cur.op=ctx.unaryop().toString();
+        cur.op=ctx.unaryop().getText();
         return cur;
     }
     @Override public ASTNode visitFuncexpr(MxstarParser.FuncexprContext ctx) {
@@ -256,11 +257,12 @@ public class ASTBuilder extends MxstarBaseVisitor<ASTNode> {
         else return new TypeNode(ctx.Void().getText(),0,new position(ctx));
     }
     @Override public ASTNode visitVarType(MxstarParser.VarTypeContext ctx) {
-        TypeNode tp = new TypeNode(ctx.builtinType().toString(), (ctx.getChildCount() - 1) / 2,new position(ctx));
+        System.out.println(ctx.builtinType().getText());
+        TypeNode tp = new TypeNode(ctx.builtinType().getText(), (ctx.getChildCount() - 1) / 2,new position(ctx));
         return tp;
     }
     @Override public ASTNode visitBuiltinType(MxstarParser.BuiltinTypeContext ctx) {
-        TypeNode tp = new TypeNode(ctx.toString(), 0,new position(ctx));
+        TypeNode tp = new TypeNode(ctx.getText(), 0,new position(ctx));
         return tp;
     }
     @Override public ASTNode visitLiteralexpr(MxstarParser.LiteralexprContext ctx) {
@@ -268,18 +270,18 @@ public class ASTBuilder extends MxstarBaseVisitor<ASTNode> {
     }
     @Override public ASTNode visitLiteral(MxstarParser.LiteralContext ctx) {
         PrimaryExprNode cur = new PrimaryExprNode(new position(ctx));
-        cur.Val=ctx.toString();
+        cur.Val=ctx.getText();
         if(ctx.DecimalInteger()!=null) {
-            cur.tp=new TypeNode("Int",0,new position(ctx));
+            cur.tp=new TypeNode("int",0,new position(ctx));
         }
         if(ctx.True()!=null||ctx.False()!=null) {
-            cur.tp=new TypeNode("Bool",0,new position(ctx));
+            cur.tp=new TypeNode("bool",0,new position(ctx));
         }
         if(ctx.StringConstant()!=null) {
-            cur.tp=new TypeNode("String",0,new position(ctx));
+            cur.tp=new TypeNode("string",0,new position(ctx));
         }
         if(ctx.Null()!=null) {
-            cur.tp=new TypeNode("Null",0,new position(ctx));
+            cur.tp=new TypeNode("null",0,new position(ctx));
         }return cur;
     }
     @Override public ASTNode visitVarexpr(MxstarParser.VarexprContext ctx) {

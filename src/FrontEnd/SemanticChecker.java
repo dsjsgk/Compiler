@@ -334,11 +334,6 @@ public class SemanticChecker implements ASTvisitor {
     }
 
     @Override
-    public void visit(AssignExprNode tmp) {
-        return ;
-    }
-
-    @Override
     public void visit(UnaryExprNode tmp) {
         tmp.a.accept(this);
         if(tmp.op.equals("-")||tmp.op.equals("+")||tmp.op.equals("~")) {
@@ -416,7 +411,11 @@ public class SemanticChecker implements ASTvisitor {
     public void visit(SinglevarDefStatementNode tmp) {
         tmp.expr.accept(this);
         Type temp = global.Get_Type(tmp.type);
-        if(!tmp.expr.type.is_null()) if(!temp.equal(tmp.expr.type)) throw new SemanticError("Wrong Initialize",tmp.pos);
+       // System.out.println(tmp.type.dim);
+        if(!tmp.expr.type.is_null()) if(!temp.equal(tmp.expr.type))
+        {
+            throw new SemanticError("Wrong Initialize",tmp.pos);
+        }
         if(temp.is_void()) throw new SemanticError("void var",tmp.pos);
         cur.New_Var(tmp.Identifier,new VarSymbol(tmp.Identifier,temp),tmp.pos);
     }

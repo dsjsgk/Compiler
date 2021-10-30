@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class ForStatementNode extends StatementNode {
     public StatementNode mainbody;
     public ExprNode init,condition,incr;
-    public ArrayList<SinglevarDefStatementNode> initDef;
+    public ArrayList<SinglevarDefStatementNode> initDef = new ArrayList<>();
     public ForStatementNode(position p) {
         super(p);
         this.condition=this.incr=this.condition=this.init=null;
