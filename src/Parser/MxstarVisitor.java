@@ -139,6 +139,34 @@ public interface MxstarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitUnaryop(MxstarParser.UnaryopContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code errorcreator}
+	 * labeled alternative in {@link MxstarParser#creator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitErrorcreator(MxstarParser.ErrorcreatorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code arraycreator}
+	 * labeled alternative in {@link MxstarParser#creator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArraycreator(MxstarParser.ArraycreatorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code classcreator}
+	 * labeled alternative in {@link MxstarParser#creator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClasscreator(MxstarParser.ClasscreatorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code basiccreator}
+	 * labeled alternative in {@link MxstarParser#creator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBasiccreator(MxstarParser.BasiccreatorContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code unaryexpr}
 	 * labeled alternative in {@link MxstarParser#expression}.
 	 * @param ctx the parse tree

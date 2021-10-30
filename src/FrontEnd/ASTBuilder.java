@@ -3,6 +3,8 @@ package FrontEnd;
 import AST.*;
 import Parser.MxstarBaseVisitor;
 import Parser.MxstarParser;
+import Util.error.SemanticError;
+import Util.error.SyntaxError;
 import Util.position;
 
 import java.util.ArrayList;
@@ -191,10 +193,29 @@ public class ASTBuilder extends MxstarBaseVisitor<ASTNode> {
     @Override public ASTNode visitSubexpr(MxstarParser.SubexprContext ctx) {
         return visit(ctx.expression());
     }
-    @Override public ASTNode visitNewexpr(MxstarParser.NewexprContext ctx) {
+    @Override public ASTNode visitErrorcreator(MxstarParser.ErrorcreatorContext ctx) {
+        throw new SyntaxError("Wrong New expr",new position(ctx));
+    }
+    @Override public ASTNode visitArraycreator(MxstarParser.ArraycreatorContext ctx) {
         NewExprNode cur = new NewExprNode(new position(ctx));
-        cur.tp.typename=ctx.builtinType().toString();
-        cur.tp.dim=
+        ctx.expression().forEach(x->cur.Exprlist.add((ExprNode) visit(x)));
+        cur.tp = (TypeNode) visit(ctx.builtinType());
+        cur.tp.dim = (ctx.children.size()-ctx.expression().size()-1)/2;
+        return cur;
+    }
+    @Override public ASTNode visitBasiccreator(MxstarParser.BasiccreatorContext ctx) {
+        NewExprNode cur = new NewExprNode(new position(ctx));
+        cur.tp = (TypeNode) visit(ctx.builtinType());
+        return cur;
+    }
+    @Override public ASTNode visitClasscreator(MxstarParser.ClasscreatorContext ctx) {
+        NewExprNode cur = new NewExprNode(new position(ctx));
+        cur.tp = (TypeNode)visit(ctx.builtinType());
+        cur.tp.dim=0;
+        return cur;
+    }
+    @Override public ASTNode visitNewexpr(MxstarParser.NewexprContext ctx) {
+        return visit(ctx.creator());
     }
     @Override public ASTNode visitSuffixexpr(MxstarParser.SuffixexprContext ctx) {
         SuffixExprNode cur = new SuffixExprNode(new position(ctx));

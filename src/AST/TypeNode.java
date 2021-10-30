@@ -2,7 +2,7 @@ package AST;
 import Util.position;
 public class TypeNode extends ASTNode{
     public String typename;
-    public int dim;
+    public int dim=0;
     public TypeNode(String id,int dim,position p){
         super(p);
         typename=id;

@@ -225,6 +225,54 @@ public interface MxstarListener extends ParseTreeListener {
 	 */
 	void exitUnaryop(MxstarParser.UnaryopContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code errorcreator}
+	 * labeled alternative in {@link MxstarParser#creator}.
+	 * @param ctx the parse tree
+	 */
+	void enterErrorcreator(MxstarParser.ErrorcreatorContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code errorcreator}
+	 * labeled alternative in {@link MxstarParser#creator}.
+	 * @param ctx the parse tree
+	 */
+	void exitErrorcreator(MxstarParser.ErrorcreatorContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code arraycreator}
+	 * labeled alternative in {@link MxstarParser#creator}.
+	 * @param ctx the parse tree
+	 */
+	void enterArraycreator(MxstarParser.ArraycreatorContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code arraycreator}
+	 * labeled alternative in {@link MxstarParser#creator}.
+	 * @param ctx the parse tree
+	 */
+	void exitArraycreator(MxstarParser.ArraycreatorContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code classcreator}
+	 * labeled alternative in {@link MxstarParser#creator}.
+	 * @param ctx the parse tree
+	 */
+	void enterClasscreator(MxstarParser.ClasscreatorContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code classcreator}
+	 * labeled alternative in {@link MxstarParser#creator}.
+	 * @param ctx the parse tree
+	 */
+	void exitClasscreator(MxstarParser.ClasscreatorContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code basiccreator}
+	 * labeled alternative in {@link MxstarParser#creator}.
+	 * @param ctx the parse tree
+	 */
+	void enterBasiccreator(MxstarParser.BasiccreatorContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code basiccreator}
+	 * labeled alternative in {@link MxstarParser#creator}.
+	 * @param ctx the parse tree
+	 */
+	void exitBasiccreator(MxstarParser.BasiccreatorContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code unaryexpr}
 	 * labeled alternative in {@link MxstarParser#expression}.
 	 * @param ctx the parse tree

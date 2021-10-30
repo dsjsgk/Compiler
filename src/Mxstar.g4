@@ -23,6 +23,11 @@ statement
 prefixop : (SelfPlus|SelfMinus);
 suffixop : (SelfPlus|SelfMinus);
 unaryop : (Minus|Plus|Not|Tilde);
+creator : builtinType ('[' expression ']')+ ('[' ']')+ ('[' expression ']')+ #errorcreator
+              | builtinType ('[' expression ']')+ ('[' ']')* #arraycreator
+              | builtinType '(' ')' #classcreator
+              | builtinType #basiccreator
+              ;
 expression :
     '('expression')' #subexpr
     | in=expression '[' out=expression ']' #arrexpr
@@ -39,7 +44,7 @@ expression :
     | a=expression op = '||' b=expression #binaryexpr
     | <assoc=right> a=expression '=' b=expression #binaryexpr
     | in=expression Dot out=expression #classexpr
-    | expression New builtinType (LeftBracket expression? RightBracket)* (LeftParen RightParen)? #newexpr
+    | expression New creator #newexpr
     | LambdaStart (LeftParen functionParameterDef? RightParen)? '->' suite LeftParen expressionList? RightParen #lambdaexpr
     | prefixop expression #prefixexpr
     | suffixop expression #suffixexpr
