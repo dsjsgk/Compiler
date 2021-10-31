@@ -362,8 +362,9 @@ public class SemanticChecker implements ASTvisitor {
             throw new SemanticError("Index is not a integer",tmp.pos);
         }
         if(!(tmp.Array.type instanceof ArrayType)) throw new SemanticError("Wrong Array",tmp.pos);
-        if(((ArrayType) tmp.Array.type).dim>1)tmp.type=new ArrayType(tmp.Array.type,((ArrayType) tmp.Array.type).dim-1);
+        if(((ArrayType) tmp.Array.type).dim>1)tmp.type=new ArrayType(((ArrayType) tmp.Array.type).type,((ArrayType) tmp.Array.type).dim-1);
         else tmp.type = ((ArrayType) tmp.Array.type).type;
+        //System.out.println(((ArrayType)tmp.type).type.is_int());
     }
 
     @Override

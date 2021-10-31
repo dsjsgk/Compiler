@@ -47,7 +47,7 @@ expression :
     | New creator #newexpr
     | LambdaStart (LeftParen functionParameterDef? RightParen)? '->' suite LeftParen expressionList? RightParen #lambdaexpr
     | prefixop expression #prefixexpr
-    | suffixop expression #suffixexpr
+    | expression suffixop #suffixexpr
     | unaryop expression #unaryexpr
     | literal #literalexpr
     | Identifier #varexpr
