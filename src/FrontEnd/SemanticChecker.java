@@ -325,7 +325,7 @@ public class SemanticChecker implements ASTvisitor {
             return ;
         }
         if(tmp.op.equals("<")||tmp.op.equals("<=")||tmp.op.equals(">")||tmp.op.equals(">=")) {
-            if(tmp.a.type.is_int()&&tmp.b.type.is_int()) tmp.type = new LiteralType("bool");
+            if((tmp.a.type.is_int()&&tmp.b.type.is_int())||(tmp.a.type.is_string()&&tmp.b.type.is_string())) tmp.type = new LiteralType("bool");
             else throw new SemanticError("Comparason Expr Error",tmp.pos);
             return ;
         }
