@@ -264,7 +264,7 @@ public class SemanticChecker implements ASTvisitor {
             }
             else {
                 if(true) {
-                    if(thisClass.funcs.containsKey(tmp.S)) {
+                    if(thisClass.vars.containsKey(tmp.S)) {
                         tmp.type = thisClass.vars.get(tmp.S).type;
                         tmp.assign = true;
                     }
