@@ -369,13 +369,14 @@ public class SemanticChecker implements ASTvisitor {
 
     @Override
     public void visit(FuncExprNode tmp) {
-        tmp.funcname.accept(this);
+
         FuncSymbol whichFunc;
         if(tmp.funcname instanceof VarExprNode) {
             whichFunc = global.Get_Func(((VarExprNode) tmp.funcname).Name,true,tmp.pos);
             tmp.funcname.type = whichFunc;
         }
         else {
+            tmp.funcname.accept(this);
             if(tmp.funcname.type instanceof FuncSymbol) whichFunc = (FuncSymbol) tmp.funcname.type;
             else throw new SemanticError("Wrong Function Name",tmp.pos);
         }

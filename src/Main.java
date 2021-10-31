@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         InputStream input = System.in;
         String name = "test.mx";
-//        FileInputStream input = new FileInputStream(name);
+        //FileInputStream input = new FileInputStream(name);
         try {
             ProgramNode rt;
             MxstarLexer lexer = new MxstarLexer(CharStreams.fromStream(input));
