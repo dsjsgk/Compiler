@@ -217,6 +217,7 @@ public class SemanticChecker implements ASTvisitor {
         tmp.P.accept(this);
         if(tmp.P.type.is_string()&&tmp.is_a_function) {
                 if(tmp.S.equals("length")){
+                    //System.out.println(1);
                     FuncSymbol res = new FuncSymbol("size");
                     res.type = new LiteralType("int");
                     tmp.type=res;
@@ -301,6 +302,8 @@ public class SemanticChecker implements ASTvisitor {
     public void visit(BinaryExprNode tmp) {
         tmp.a.accept(this);
         tmp.b.accept(this);
+//        System.out.println(tmp.pos.toString());
+//        System.out.println(tmp.b instanceof FuncExprNode);
         if(tmp.op.equals("+")) {
             if(tmp.a.type.is_int()&&tmp.b.type.is_int()) {
                 tmp.type=new LiteralType("int");

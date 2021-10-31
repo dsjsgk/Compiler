@@ -30,29 +30,29 @@ creator : builtinType ('[' expression ']')+ ('[' ']')+ ('[' expression ']')+ #er
               ;
 expression :
     '('expression')' #subexpr
-    | in=expression '[' out=expression ']' #arrexpr
-    | expression '(' expressionList? ')' #funcexpr
-    | a=expression op = ('*' | '/' | '%') b=expression #binaryexpr
-    | a=expression op = ('+' | '-') b=expression #binaryexpr
-    | a=expression op = ('<<' | '>>') b=expression #binaryexpr
-    | a=expression op = ('<' | '<=' | '>' | '>=') b=expression #binaryexpr
-    | a=expression op = ('==' | '!=') b=expression #binaryexpr
-    | a=expression op = '&' b=expression #binaryexpr
-    | a=expression op = '^' b=expression #binaryexpr
-    | a=expression op = '|' b=expression #binaryexpr
-    | a=expression op = '&&' b=expression #binaryexpr
-    | a=expression op = '||' b=expression #binaryexpr
-    | <assoc=right> a=expression op = '=' b=expression #binaryexpr
-    | in=expression Dot Identifier #classexpr
-    | New creator #newexpr
-    | LambdaStart (LeftParen functionParameterDef? RightParen)? '->' suite LeftParen expressionList? RightParen #lambdaexpr
-    | prefixop expression #prefixexpr
-    | expression suffixop #suffixexpr
-    | unaryop expression #unaryexpr
-    | literal #literalexpr
-    | Identifier #varexpr
-    | This #thisexpr
-;
+    |literal #literalexpr
+    |LambdaStart (LeftParen functionParameterDef? RightParen)? '->' suite LeftParen expressionList? RightParen #lambdaexpr
+    |This #thisexpr
+    |Identifier #varexpr
+    |expression '(' expressionList? ')' #funcexpr
+    |in=expression '[' out=expression ']' #arrexpr
+    |in=expression Dot Identifier #classexpr
+    |expression suffixop #suffixexpr
+    |<assoc=right> prefixop expression #prefixexpr
+    |<assoc=right> unaryop expression #unaryexpr
+    |<assoc=right> New creator #newexpr
+    |a=expression op = ('*' | '/' | '%') b=expression #binaryexpr
+    |a=expression op = ('+' | '-') b=expression #binaryexpr
+    |a=expression op = ('<<' | '>>') b=expression #binaryexpr
+    |a=expression op = ('<' | '<=' | '>' | '>=') b=expression #binaryexpr
+    |a=expression op = ('==' | '!=') b=expression #binaryexpr
+    |a=expression op = '&' b=expression #binaryexpr
+    |a=expression op = '^' b=expression #binaryexpr
+    |a=expression op = '|' b=expression #binaryexpr
+    |a=expression op = '&&' b=expression #binaryexpr
+    |a=expression op = '||' b=expression #binaryexpr
+    |<assoc=right> a=expression op = '=' b=expression #binaryexpr
+    ;
 
 varDeclaration:varType singlevarDeclaration (',' singlevarDeclaration)* ;
 varDeclarationStmt : varDeclaration ';';
