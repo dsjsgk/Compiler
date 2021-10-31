@@ -279,15 +279,20 @@ public class SemanticChecker implements ASTvisitor {
 
     @Override
     public void visit(LambdaExprNode tmp) {
-        if(tmp.Funcall.List.size()!=tmp.ParaDef.list.size()) {
+        if(tmp.Funcall==null||tmp.ParaDef==null) {
+            if(tmp.Funcall==null&&tmp.ParaDef==null) ;
+            else throw new SemanticError("Wrong Lambda paras",tmp.pos);
+        }
+        else if(tmp.Funcall.List.size()!=tmp.ParaDef.list.size()) {
             throw new SemanticError("Wrong Lambda paras",tmp.pos);
         }
         cur = new Scope(cur);
+        if(tmp.Funcall!=null)
         for(int i=0;i<tmp.Funcall.List.size();++i) {
             tmp.ParaDef.list.get(i).accept(this);
             tmp.Funcall.List.get(i).accept(this);
             if(!tmp.Funcall.List.get(i).type.equal(global.Get_Type(tmp.ParaDef.list.get(i).type))) throw new SemanticError("Wrong paras",tmp.pos);
-            cur.New_Var(tmp.ParaDef.list.get(i).Identifier,new VarSymbol(tmp.ParaDef.list.get(i).Identifier,tmp.Funcall.List.get(i).type), tmp.pos);
+            //cur.New_Var(tmp.ParaDef.list.get(i).Identifier,new VarSymbol(tmp.ParaDef.list.get(i).Identifier,tmp.Funcall.List.get(i).type), tmp.pos);
         }
         flag_lambda++;
         _lambda_return_type.add(new FuncSymbol("null"));
