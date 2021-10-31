@@ -177,7 +177,8 @@ public class ASTBuilder extends MxstarBaseVisitor<ASTNode> {
     @Override public ASTNode visitFuncexpr(MxstarParser.FuncexprContext ctx) {
         FuncExprNode cur = new FuncExprNode(new position(ctx));
         cur.funcname = (ExprNode) visit(ctx.expression());
-        cur.paras = (ExprListNode) visit(ctx.expressionList());
+        if(ctx.expressionList()!=null)
+        cur.paras.addAll( ((ExprListNode) visit(ctx.expressionList())).List);
         if(cur.funcname instanceof MemberExprNode) {
             cur.funcname.assign=false;
             ((MemberExprNode) cur.funcname).is_a_function = true;

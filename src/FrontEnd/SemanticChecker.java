@@ -382,12 +382,12 @@ public class SemanticChecker implements ASTvisitor {
             else throw new SemanticError("Wrong Function Name",tmp.pos);
         }
         tmp.type=whichFunc.type;
-        if(whichFunc.paras.size()!=tmp.paras.List.size()) {
+        if(whichFunc.paras.size()!=tmp.paras.size()) {
             throw new SemanticError("Wrong paras number",tmp.pos);
         }
         for(int i=0;i<whichFunc.paras.size();++i) {
-            tmp.paras.List.get(i).accept(this);
-            if(!tmp.paras.List.get(i).type.equal(whichFunc.paras.get(i).type)) throw new SemanticError("Wrong Parameters Type",tmp.pos);
+            tmp.paras.get(i).accept(this);
+            if(!tmp.paras.get(i).type.equal(whichFunc.paras.get(i).type)) throw new SemanticError("Wrong Parameters Type",tmp.pos);
         }
     }
 

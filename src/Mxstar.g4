@@ -31,7 +31,7 @@ creator : builtinType ('[' expression ']')+ ('[' ']')+ ('[' expression ']')+ #er
 expression :
     '('expression')' #subexpr
     | in=expression '[' out=expression ']' #arrexpr
-    | expression '(' expressionList ')' #funcexpr
+    | expression '(' expressionList? ')' #funcexpr
     | a=expression op = ('*' | '/' | '%') b=expression #binaryexpr
     | a=expression op = ('+' | '-') b=expression #binaryexpr
     | a=expression op = ('<<' | '>>') b=expression #binaryexpr
