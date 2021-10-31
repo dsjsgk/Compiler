@@ -153,6 +153,7 @@ public class SemanticChecker implements ASTvisitor {
 
     @Override
     public void visit(ExprStatementNode tmp) {
+        if(tmp.expr!=null)
         tmp.expr.accept(this);
     }
 
@@ -382,7 +383,7 @@ public class SemanticChecker implements ASTvisitor {
 
         FuncSymbol whichFunc;
         if(tmp.funcname instanceof VarExprNode) {
-            whichFunc = global.Get_Func(((VarExprNode) tmp.funcname).Name,true,tmp.pos);
+            whichFunc = cur.Get_Func(((VarExprNode) tmp.funcname).Name,true,tmp.pos);
             tmp.funcname.type = whichFunc;
         }
         else {
