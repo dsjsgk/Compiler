@@ -54,9 +54,9 @@ public class SemanticChecker implements ASTvisitor {
 
     @Override
     public void visit(FuncDefNode tmp) {
-        FuncSymbol cur_function = cur.Get_Func(tmp.Name,false,tmp.pos);
+
         cur=new Scope(cur);
-        cur_function.paras.forEach(x->cur.New_Var(x.identifier,x,tmp.pos));
+        tmp.Paralist.forEach(x->cur.New_Var(x.Identifier,new VarSymbol(x.Identifier,global.Get_Type(x.type)),x.pos));
         _return_type=null;
         _cur_type=null;
         if(tmp.return_type==null) _cur_type=new LiteralType("void");
