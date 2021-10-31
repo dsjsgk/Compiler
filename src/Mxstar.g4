@@ -15,7 +15,7 @@ statement
     | Return expression? ';' #returnstmt
     | expression? ';' #exprstmt
     | For '(' (x0=varDeclaration|x1=expression)? ';' s1 = expression? ';' s2 = expression? ')' statement #forstmt
-    | While '(' expression ')' statement ';' #whilestmt
+    | While '(' expression ')' statement #whilestmt
     | Break ';' #breakstmt
     | Continue ';' #continuestmt
     ;
@@ -43,7 +43,7 @@ expression :
     | a=expression op = '&&' b=expression #binaryexpr
     | a=expression op = '||' b=expression #binaryexpr
     | <assoc=right> a=expression op = '=' b=expression #binaryexpr
-    | in=expression Dot out=expression #classexpr
+    | in=expression Dot Identifier #classexpr
     | New creator #newexpr
     | LambdaStart (LeftParen functionParameterDef? RightParen)? '->' suite LeftParen expressionList? RightParen #lambdaexpr
     | prefixop expression #prefixexpr

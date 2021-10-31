@@ -206,14 +206,13 @@ public class SemanticChecker implements ASTvisitor {
     public void visit(MemberExprNode tmp) {
         tmp.P.accept(this);
         if(tmp.P.type.is_string()&&tmp.is_a_function) {
-            if(tmp.S instanceof VarExprNode) {
-                if(((VarExprNode) tmp.S).Name.equals("length")){
+                if(tmp.S.equals("length")){
                     FuncSymbol res = new FuncSymbol("size");
                     res.type = new LiteralType("int");
                     tmp.type=res;
                     return ;
                 }
-                if(((VarExprNode) tmp.S).Name.equals("substring")){
+                if(tmp.S.equals("substring")){
                     FuncSymbol res = new FuncSymbol("substring");
                     res.type = new LiteralType("string");
                     res.paras.add(new VarSymbol("left",new LiteralType("int")));
@@ -221,45 +220,42 @@ public class SemanticChecker implements ASTvisitor {
                     tmp.type = res;
                     return ;
                 }
-                if(((VarExprNode) tmp.S).Name.equals("parseInt")) {
+                if(tmp.S.equals("parseInt")) {
                     FuncSymbol res = new FuncSymbol("parseInt");
                     res.type = new LiteralType("int");
                     tmp.type=res;
                     return ;
                 }
-                if(((VarExprNode) tmp.S).Name.equals("ord")) {
+                if(tmp.S.equals("ord")) {
                     FuncSymbol res = new FuncSymbol("ord");
                     res.type = new LiteralType("int");
                     res.paras.add(new VarSymbol("pos",new LiteralType("int")));
                     tmp.type=res;
                     return ;
                 }
-            }
         }
         if(tmp.P.type instanceof ArrayType) {
-            if(tmp.S instanceof VarExprNode) {
-                if(((VarExprNode) tmp.S).Name.equals("size")) {
+                if(tmp.S.equals("size")) {
                     FuncSymbol res = new FuncSymbol("size");
                     res.type = new LiteralType("int");
                     tmp.type=res;
                     return ;
                 }
-            }
         }
         if(tmp.P.type instanceof ClassType) {
             ClassType thisClass = (ClassType) tmp.P.type;
             if(tmp.is_a_function) {
-                if(tmp.S instanceof VarExprNode) {
-                    if (thisClass.funcs.containsKey(((VarExprNode) tmp.S).Name)) {
-                        tmp.type = thisClass.funcs.get(((VarExprNode) tmp.S).Name);
+                if(true) {
+                    if (thisClass.funcs.containsKey(tmp.S)) {
+                        tmp.type = thisClass.funcs.get(tmp.S);
                     }
                     else throw new SemanticError("Wrong Function in Class",tmp.pos);
                 }
             }
             else {
-                if(tmp.S instanceof VarExprNode) {
-                    if(thisClass.funcs.containsKey(((VarExprNode) tmp.S).Name)) {
-                        tmp.type = thisClass.vars.get(((VarExprNode) tmp.S).Name).type;
+                if(true) {
+                    if(thisClass.funcs.containsKey(tmp.S)) {
+                        tmp.type = thisClass.vars.get(tmp.S).type;
                         tmp.assign = true;
                     }
                     else throw new SemanticError("Wrong Var in Class",tmp.pos);
