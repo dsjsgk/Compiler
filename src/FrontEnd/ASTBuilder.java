@@ -288,6 +288,9 @@ public class ASTBuilder extends MxstarBaseVisitor<ASTNode> {
         cur.Name=ctx.Identifier().getText();
         return cur;
     }
+    @Override public ASTNode visitThisexpr(MxstarParser.ThisexprContext ctx) {
+        return new ThisExprNode(new position(ctx));
+    }
 }
 
 

@@ -1,6 +1,7 @@
 package FrontEnd;
 
 import AST.*;
+import Parser.MxstarParser;
 import Util.*;
 import Util.error.SemanticError;
 
@@ -227,4 +228,5 @@ public class Init implements ASTvisitor {
 
     }
     @Override public void visit(VarExprNode tmp) {}
+    @Override public void visit(ThisExprNode tmp) {}
 }

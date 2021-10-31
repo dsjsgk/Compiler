@@ -43,6 +43,16 @@ public class SemanticChecker implements ASTvisitor {
     }
 
     @Override
+    public void visit(ThisExprNode tmp) {
+        if(inClass==null) {
+            throw new SemanticError("Wrong use of this",tmp.pos);
+        }
+        else {
+            tmp.type = inClass;
+        }
+    }
+
+    @Override
     public void visit(FuncDefNode tmp) {
         FuncSymbol cur_function = cur.Get_Func(tmp.Name,false,tmp.pos);
         cur=new Scope(cur);

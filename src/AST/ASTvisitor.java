@@ -30,4 +30,5 @@ public interface ASTvisitor {
     void visit(varDefStatementNode tmp);
     void visit(WhileStatementNode tmp);
     void visit(VarExprNode tmp);
+    void visit(ThisExprNode tmp);
 }

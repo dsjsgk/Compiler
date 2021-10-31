@@ -285,18 +285,6 @@ public interface MxstarListener extends ParseTreeListener {
 	 */
 	void exitUnaryexpr(MxstarParser.UnaryexprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code funcexpr}
-	 * labeled alternative in {@link MxstarParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterFuncexpr(MxstarParser.FuncexprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code funcexpr}
-	 * labeled alternative in {@link MxstarParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitFuncexpr(MxstarParser.FuncexprContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code prefixexpr}
 	 * labeled alternative in {@link MxstarParser#expression}.
 	 * @param ctx the parse tree
@@ -320,18 +308,6 @@ public interface MxstarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLiteralexpr(MxstarParser.LiteralexprContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code newexpr}
-	 * labeled alternative in {@link MxstarParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterNewexpr(MxstarParser.NewexprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code newexpr}
-	 * labeled alternative in {@link MxstarParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitNewexpr(MxstarParser.NewexprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code varexpr}
 	 * labeled alternative in {@link MxstarParser#expression}.
@@ -369,6 +345,54 @@ public interface MxstarListener extends ParseTreeListener {
 	 */
 	void exitLambdaexpr(MxstarParser.LambdaexprContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code arrexpr}
+	 * labeled alternative in {@link MxstarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrexpr(MxstarParser.ArrexprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code arrexpr}
+	 * labeled alternative in {@link MxstarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrexpr(MxstarParser.ArrexprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code funcexpr}
+	 * labeled alternative in {@link MxstarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncexpr(MxstarParser.FuncexprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code funcexpr}
+	 * labeled alternative in {@link MxstarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncexpr(MxstarParser.FuncexprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code thisexpr}
+	 * labeled alternative in {@link MxstarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterThisexpr(MxstarParser.ThisexprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code thisexpr}
+	 * labeled alternative in {@link MxstarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitThisexpr(MxstarParser.ThisexprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code newexpr}
+	 * labeled alternative in {@link MxstarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterNewexpr(MxstarParser.NewexprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code newexpr}
+	 * labeled alternative in {@link MxstarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitNewexpr(MxstarParser.NewexprContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code binaryexpr}
 	 * labeled alternative in {@link MxstarParser#expression}.
 	 * @param ctx the parse tree
@@ -392,18 +416,6 @@ public interface MxstarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSubexpr(MxstarParser.SubexprContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code arrexpr}
-	 * labeled alternative in {@link MxstarParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterArrexpr(MxstarParser.ArrexprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code arrexpr}
-	 * labeled alternative in {@link MxstarParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitArrexpr(MxstarParser.ArrexprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code classexpr}
 	 * labeled alternative in {@link MxstarParser#expression}.

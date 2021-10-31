@@ -51,6 +51,7 @@ expression :
     | unaryop expression #unaryexpr
     | literal #literalexpr
     | Identifier #varexpr
+    | This #thisexpr
 ;
 
 varDeclaration:varType singlevarDeclaration (',' singlevarDeclaration)* ;
@@ -128,6 +129,7 @@ For : 'for';
 While : 'while';
 Break : 'break';
 Continue : 'continue';
+This : 'this';
 
 LambdaStart : '[&]';
 
