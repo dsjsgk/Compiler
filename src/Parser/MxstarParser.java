@@ -154,7 +154,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitProgram(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitProgram(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -249,7 +249,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitClassDeclarationStmt(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitClassDeclarationStmt(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -337,7 +337,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitConstructorDef(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitConstructorDef(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -396,7 +396,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitFunctionDef(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitFunctionDef(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -460,7 +460,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitSingleParameter(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitSingleParameter(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -513,7 +513,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitFunctionParameterDef(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitFunctionParameterDef(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -581,7 +581,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitSuite(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitSuite(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -649,7 +649,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitExpressionList(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitExpressionList(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -719,7 +719,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitExprstmt(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitExprstmt(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -744,7 +744,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitWhilestmt(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitWhilestmt(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -783,7 +783,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitForstmt(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitForstmt(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -814,7 +814,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitIfstmt(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitIfstmt(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -835,7 +835,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitReturnstmt(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitReturnstmt(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -853,7 +853,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitBreakstmt(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitBreakstmt(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -872,7 +872,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitSuitestmt(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitSuitestmt(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -890,7 +890,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitContinuestmt(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitContinuestmt(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -909,7 +909,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitVarstmt(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitVarstmt(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1124,7 +1124,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitPrefixop(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitPrefixop(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1176,7 +1176,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitSuffixop(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitSuffixop(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1230,7 +1230,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitUnaryop(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitUnaryop(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1293,7 +1293,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitClasscreator(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitClasscreator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1326,7 +1326,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitArraycreator(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitArraycreator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1345,7 +1345,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitBasiccreator(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitBasiccreator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1378,7 +1378,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitErrorcreator(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitErrorcreator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1581,7 +1581,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitUnaryexpr(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitUnaryexpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1605,7 +1605,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitFuncexpr(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitFuncexpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1627,7 +1627,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitPrefixexpr(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitPrefixexpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1646,7 +1646,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitLiteralexpr(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitLiteralexpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1666,7 +1666,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitNewexpr(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitNewexpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1683,7 +1683,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitVarexpr(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitVarexpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1705,7 +1705,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitSuffixexpr(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitSuffixexpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1739,7 +1739,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitLambdaexpr(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitLambdaexpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1783,7 +1783,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitBinaryexpr(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitBinaryexpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1804,7 +1804,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitSubexpr(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitSubexpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1830,7 +1830,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitArrexpr(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitArrexpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1852,7 +1852,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitClassexpr(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitClassexpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2309,7 +2309,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitVarDeclaration(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitVarDeclaration(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2373,7 +2373,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitVarDeclarationStmt(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitVarDeclarationStmt(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2421,7 +2421,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitSinglevarDeclaration(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitSinglevarDeclaration(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2479,7 +2479,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitReturnType(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitReturnType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2549,7 +2549,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitVarType(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitVarType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2611,7 +2611,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitBuiltinType(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitBuiltinType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2670,7 +2670,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitPrimary(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitPrimary(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2746,7 +2746,7 @@ public class MxstarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MxstarVisitor) return ((MxstarVisitor<? extends T>)visitor).visitLiteral(this);
+			if ( visitor instanceof MxstarVisitor ) return ((MxstarVisitor<? extends T>)visitor).visitLiteral(this);
 			else return visitor.visitChildren(this);
 		}
 	}

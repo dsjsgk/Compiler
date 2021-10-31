@@ -135,7 +135,7 @@ Identifier : [a-zA-Z] [a-zA-Z_0-9]*;
 
 DecimalInteger : [1-9] [0-9]* | '0';
 
-StringConstant : Quote ('\\"'| .)* Quote;
+StringConstant :  '"' ( '\\n' | '\\\\' | '\\"' | .)*? '"';
 
 
 Whitespace : [ \t]+ -> skip ;
