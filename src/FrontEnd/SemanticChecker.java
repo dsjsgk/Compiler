@@ -56,7 +56,9 @@ public class SemanticChecker implements ASTvisitor {
             if(_return_type!=null&&!_return_type.equal(_cur_type)) throw new SemanticError("Wrong Main Func return type",tmp.pos);
         }
         else {
-            if(_cur_type.is_void()&&_return_type!=null) throw new SemanticError("Expected No Return Val",tmp.pos);
+            if(_cur_type.is_void()) {
+                if (_return_type != null) throw new SemanticError("Expected No Return Val", tmp.pos);
+            }
             else if(!_cur_type.equal(_return_type)) throw new SemanticError("Wrong Return type", tmp.pos);
         }
         _cur_type=_return_type=null;
@@ -364,7 +366,6 @@ public class SemanticChecker implements ASTvisitor {
         if(!(tmp.Array.type instanceof ArrayType)) throw new SemanticError("Wrong Array",tmp.pos);
         if(((ArrayType) tmp.Array.type).dim>1)tmp.type=new ArrayType(((ArrayType) tmp.Array.type).type,((ArrayType) tmp.Array.type).dim-1);
         else tmp.type = ((ArrayType) tmp.Array.type).type;
-        //System.out.println(((ArrayType)tmp.type).type.is_int());
     }
 
     @Override
