@@ -196,7 +196,7 @@ public class SemanticChecker implements ASTvisitor {
         tmp.a.accept(this);
         tmp.type=tmp.a.type;
         if(!tmp.type.is_int()) throw new SemanticError("type of ++A is not int",tmp.pos);
-        if(!tmp.assign) throw new SemanticError("Var is not Left Val",tmp.pos);
+        if(!tmp.a.assign) throw new SemanticError("Var is not Left Val",tmp.pos);
         tmp.assign=true;
     }
 
@@ -410,11 +410,12 @@ public class SemanticChecker implements ASTvisitor {
 
     @Override
     public void visit(SinglevarDefStatementNode tmp) {
-        tmp.expr.accept(this);
         Type temp = global.Get_Type(tmp.type);
-        if(!tmp.expr.type.is_null()) if(!temp.equal(tmp.expr.type))
-        {
-            throw new SemanticError("Wrong Initialize",tmp.pos);
+        if(tmp.expr!=null) {
+            tmp.expr.accept(this);
+            if (!tmp.expr.type.is_null()) if (!temp.equal(tmp.expr.type)) {
+                throw new SemanticError("Wrong Initialize", tmp.pos);
+            }
         }
         if(temp.is_void()) throw new SemanticError("void var",tmp.pos);
         cur.New_Var(tmp.Identifier,new VarSymbol(tmp.Identifier,temp),tmp.pos);

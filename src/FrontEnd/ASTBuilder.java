@@ -136,7 +136,7 @@ public class ASTBuilder extends MxstarBaseVisitor<ASTNode> {
         return (varDefStatementNode) visit(ctx.varDeclarationStmt());
     }
     @Override public ASTNode visitIfstmt(MxstarParser.IfstmtContext ctx) {
-        IfStatementNode cur = new IfStatementNode((ExprNode)visit(ctx.expression()),(StatementNode)visit(ctx.trueStmt),(StatementNode)visit(ctx.falseStmt),new position(ctx));
+        IfStatementNode cur = new IfStatementNode((ExprNode)visit(ctx.expression()),ctx.trueStmt==null?null:(StatementNode)visit(ctx.trueStmt),ctx.falseStmt==null?null:(StatementNode)visit(ctx.falseStmt),new position(ctx));
         return cur;
     }
     @Override public ASTNode visitReturnstmt(MxstarParser.ReturnstmtContext ctx) {
