@@ -31,6 +31,11 @@ public class Init implements ASTvisitor {
         res.paras.add(new VarSymbol("n",new LiteralType("int")));
         global.Funcs.put("printInt",res);
 
+        res = new FuncSymbol("printlnInt");
+        res.type=new LiteralType("void");
+        res.paras.add(new VarSymbol("n",new LiteralType("int")));
+        global.Funcs.put("printlnInt",res);
+
         res = new FuncSymbol("getString");
         res.type=new LiteralType("string");
         global.Funcs.put("getString",res);
