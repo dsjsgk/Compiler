@@ -1,10 +1,12 @@
 package MIR;
 
-public class register extends operand{
+abstract public class register extends operand{
     public String id;
-    public register (String id,BaseType tp) {
+    public Inst def_Inst;
+    public register (Inst def_Inst,String id,BaseType tp) {
         super(tp);
         this.id = id;
+        this.def_Inst = def_Inst;
     }
-    @Override public String toString(){return "%"+id;}
+//    @Override public String toString(){return "%"+id;}
 }

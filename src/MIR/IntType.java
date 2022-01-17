@@ -4,22 +4,9 @@ public class IntType extends BaseType{
     public int size;
     public IntType(int size) {this.size=size;}
     @Override public String toString(){if(size==4)return "i32";else return "i1";}
-    @Override public int size(){return size;}
+    @Override public int size(){return (size+7)/8;}
+    @Override public operand defaultval(){
+        if(size>1) return new IntConst(0,new IntType(32));
+        else return new BoolConst(false,new IntType(1));
+    }
 }
-
-a = 1
-if (cond) {
-    a = 2
-} else {
-    a = 3
-}
-b = a
-
-%1 = 1
-if (cond) {
-    %2 = 2
-} else {
-    %3 = 3
-}
-a4 = phi(from which branch, a2, a3)
-b = a4

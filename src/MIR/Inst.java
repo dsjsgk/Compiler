@@ -1,10 +1,12 @@
 package MIR;
 
-abstract class Inst {
+abstract class Inst extends Basis{
     Inst Pre,Nxt;
-    public Inst() {
+    BasicBlock bel;
+    public Inst(BasicBlock bel) {
         Pre = null;
         Nxt = null;
+        this.bel = bel;
     }
     abstract public String toString();
 

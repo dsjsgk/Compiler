@@ -1,4 +1,5 @@
 import AST.ProgramNode;
+import BackEnd.IRBuilder;
 import FrontEnd.ASTBuilder;
 import FrontEnd.SemanticChecker;
 import FrontEnd.Init;
@@ -33,6 +34,8 @@ public class Main {
             new Init(global).visit(rt);
             global.Vars.clear();
             new SemanticChecker(global).visit(rt);
+            new IRBuilder(global).visit(rt);
+
         } catch (Error er) {
             System.err.println(er.toString());
             throw new RuntimeException();

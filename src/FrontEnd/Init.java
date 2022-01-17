@@ -229,6 +229,9 @@ public class Init implements ASTvisitor {
         if(inClass==null) return ;
         VarSymbol temp = new VarSymbol(tmp.Identifier,global.Get_Type(tmp.type));
         temp.is_Class_var=true;
+        temp.ClassName = inClass;
+        ((ClassType)global.Types.get(inClass)).mapping.put(tmp.Identifier,((ClassType)global.Types.get(inClass)).num);
+        ((ClassType)global.Types.get(inClass)).num++;
         cur.New_Var(tmp.Identifier,temp,tmp.pos);
 
     }
