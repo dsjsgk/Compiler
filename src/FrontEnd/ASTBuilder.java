@@ -187,7 +187,7 @@ public class ASTBuilder extends MxstarBaseVisitor<ASTNode> {
     }
     @Override public ASTNode visitPrefixexpr(MxstarParser.PrefixexprContext ctx) {
         PrefixExprNode cur = new PrefixExprNode(new position(ctx));
-        cur.op = cur.op;
+        cur.op = ctx.prefixop().getText();
         cur.a = (ExprNode) visit(ctx.expression());
         return cur;
     }
@@ -220,7 +220,7 @@ public class ASTBuilder extends MxstarBaseVisitor<ASTNode> {
     }
     @Override public ASTNode visitSuffixexpr(MxstarParser.SuffixexprContext ctx) {
         SuffixExprNode cur = new SuffixExprNode(new position(ctx));
-        cur.op = cur.op;
+        cur.op = ctx.suffixop().getText();
         cur.a = (ExprNode) visit(ctx.expression());
         return cur;
     }
@@ -277,6 +277,8 @@ public class ASTBuilder extends MxstarBaseVisitor<ASTNode> {
             cur.tp=new TypeNode("bool",0,new position(ctx));
         }
         if(ctx.StringConstant()!=null) {
+            int len = cur.Val.length();
+            cur.Val = cur.Val.substring(1,len-1);
             cur.tp=new TypeNode("string",0,new position(ctx));
         }
         if(ctx.Null()!=null) {

@@ -13,4 +13,7 @@ public class PointerType extends BaseType{
     @Override public operand defaultval(){
         return new NullConst(new NullType());
     }
+    public String toStringBase() {
+        return this.tp.toString();
+    }
 }

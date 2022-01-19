@@ -18,6 +18,7 @@ public class SemanticChecker implements ASTvisitor {
     }
     @Override
     public void visit(ProgramNode tmp) {
+        tmp.thisscope = cur;
         cur=global;
         FuncSymbol Main = global.Get_Func("main",false,tmp.pos);
         if(Main.paras.size()>0) throw new SemanticError("main function has parameters!",tmp.pos);
@@ -27,6 +28,7 @@ public class SemanticChecker implements ASTvisitor {
 
     @Override
     public void visit(ClassDefNode tmp) {
+        tmp.thisscope = cur;
         cur=new Scope(cur);
         inClass=(ClassType) global.Types.get(tmp.Classname);
         inClass.vars.forEach((key,val)->cur.New_Var(key,val,tmp.pos));
@@ -38,7 +40,6 @@ public class SemanticChecker implements ASTvisitor {
         }//
 
         tmp.Funcs.forEach(x->x.accept(this));
-        tmp.thisscope = cur;
         cur=cur._Parent;
         inClass=null;
 
@@ -46,18 +47,18 @@ public class SemanticChecker implements ASTvisitor {
 
     @Override
     public void visit(ThisExprNode tmp) {
+        tmp.thisscope = cur;
         if(inClass==null) {
             throw new SemanticError("Wrong use of this",tmp.pos);
         }
         else {
             tmp.type = inClass;
         }
-        tmp.thisscope = cur;
     }
 
     @Override
     public void visit(FuncDefNode tmp) {
-
+        tmp.thisscope = cur;
         cur=new Scope(cur);
         tmp.Paralist.forEach(x->cur.New_Var(x.Identifier,new VarSymbol(x.Identifier,global.Get_Type(x.type)),x.pos));
         _return_type=null;
@@ -74,7 +75,6 @@ public class SemanticChecker implements ASTvisitor {
             }
             else if(!_cur_type.equal(_return_type)) throw new SemanticError("Wrong Return type", tmp.pos);
         }
-        tmp.thisscope = cur;
         _cur_type=_return_type=null;
         cur=cur._Parent;
     }
@@ -96,14 +96,15 @@ public class SemanticChecker implements ASTvisitor {
 
     @Override
     public void visit(varDefStatementNode tmp) {
+        tmp.thisscope = cur;
         for (SinglevarDefStatementNode x : tmp.list) {
             x.accept(this);
         }
-        tmp.thisscope = cur;
     }
 
     @Override
     public void visit(ReturnStatementNode tmp) {
+        tmp.thisscope = cur;
         if(flag_lambda>0) {
             Type res;
             if(tmp.Val == null) res = new LiteralType("null");
@@ -126,23 +127,23 @@ public class SemanticChecker implements ASTvisitor {
             _return_type = tmp.Val.type;
             if(!_cur_type.equal(_return_type)) throw new SemanticError("Wrong Return Type",tmp.pos);
         }
-        tmp.thisscope = cur;
     }
 
     @Override
     public void visit(WhileStatementNode tmp) {
+        tmp.thisscope = cur;
         tmp.condition.accept(this);
         if(!tmp.condition.type.is_boolean()) throw new SemanticError("Wrong condition Types",tmp.pos);
         Circuit++;
         cur=new Scope(cur);
         tmp.mainbody.accept(this);
-        tmp.thisscope = cur;
         cur=cur._Parent;
         Circuit--;
     }
 
     @Override
     public void visit(SuiteStatementNode tmp) {
+        tmp.thisscope = cur;
         for (StatementNode x : tmp.Stmts) {
             if(x instanceof SuiteStatementNode) {
                 cur=new Scope(cur);
@@ -151,24 +152,24 @@ public class SemanticChecker implements ASTvisitor {
             }
             else x.accept(this);
         }
-        tmp.thisscope = cur;
     }
 
     @Override
     public void visit(BreakStatementNode tmp) {
-        if(Circuit==0) throw new SemanticError("Break outside Circuit",tmp.pos);
         tmp.thisscope = cur;
+        if(Circuit==0) throw new SemanticError("Break outside Circuit",tmp.pos);
     }
 
     @Override
     public void visit(ExprStatementNode tmp) {
+        tmp.thisscope = cur;
         if(tmp.expr!=null)
         tmp.expr.accept(this);
-        tmp.thisscope = cur;
     }
 
     @Override
     public void visit(ForStatementNode tmp) {
+        tmp.thisscope = cur;
         if(tmp.init!=null) {
             tmp.init.accept(this);
         }
@@ -183,18 +184,19 @@ public class SemanticChecker implements ASTvisitor {
         cur = new Scope(cur);
         ++Circuit;
         tmp.mainbody.accept(this);
-        tmp.thisscope = cur;
         cur = cur._Parent;
         --Circuit;
     }
 
     @Override
     public void visit(PrimaryExprNode tmp) {
+        tmp.thisscope = cur;
         tmp.type=new LiteralType(tmp.tp.typename);
     }
 
     @Override
     public void visit(IfStatementNode tmp) {
+        tmp.thisscope = cur;
         tmp.condition.accept(this);
         if(!tmp.condition.type.is_boolean()) throw new SemanticError("Wrong Ifstmt condition type" , tmp.pos);
         cur = new Scope(cur);
@@ -205,30 +207,33 @@ public class SemanticChecker implements ASTvisitor {
             tmp.elseStmt.accept(this);
             cur = cur._Parent;
         }
-        tmp.thisscope = cur;
+
     }
 
     @Override
     public void visit(SuffixExprNode tmp) {
+        tmp.thisscope = cur;
         tmp.a.accept(this);
         tmp.type=tmp.a.type;
         if(!tmp.type.is_int()) throw new SemanticError("type of A++ is not int", tmp.pos);
         if(!tmp.a.assign) throw new SemanticError("Var is not Left Val",tmp.pos);
-        tmp.thisscope = cur;
+
     }
 
     @Override
     public void visit(PrefixExprNode tmp) {
+        tmp.thisscope = cur;
         tmp.a.accept(this);
         tmp.type=tmp.a.type;
         if(!tmp.type.is_int()) throw new SemanticError("type of ++A is not int",tmp.pos);
         if(!tmp.a.assign) throw new SemanticError("Var is not Left Val",tmp.pos);
         tmp.assign=true;
-        tmp.thisscope = cur;
+
     }
 
     @Override
     public void visit(MemberExprNode tmp) {
+        tmp.thisscope = cur;
         tmp.P.accept(this);
         if(tmp.P.type.is_string()&&tmp.is_a_function) {
                 if(tmp.S.equals("length")){
@@ -289,11 +294,11 @@ public class SemanticChecker implements ASTvisitor {
             }
         }
         else throw new SemanticError("Undefined Class or Inside Functions",tmp.pos);
-        tmp.thisscope = cur;
     }
 
     @Override
     public void visit(LambdaExprNode tmp) {
+        tmp.thisscope = cur;
         if(tmp.Funcall==null||tmp.ParaDef==null) {
             if(tmp.Funcall==null&&tmp.ParaDef==null) ;
             else throw new SemanticError("Wrong Lambda paras",tmp.pos);
@@ -321,6 +326,7 @@ public class SemanticChecker implements ASTvisitor {
 
     @Override
     public void visit(BinaryExprNode tmp) {
+        tmp.thisscope = cur;
         tmp.a.accept(this);
         tmp.b.accept(this);
 //        System.out.println(tmp.pos.toString());
@@ -368,6 +374,7 @@ public class SemanticChecker implements ASTvisitor {
 
     @Override
     public void visit(UnaryExprNode tmp) {
+        tmp.thisscope = cur;
         tmp.a.accept(this);
         if(tmp.op.equals("-")||tmp.op.equals("+")||tmp.op.equals("~")) {
             if(tmp.a.type.is_int()) tmp.type=new LiteralType("int");
@@ -390,6 +397,7 @@ public class SemanticChecker implements ASTvisitor {
 
     @Override
     public void visit(ArrayExprNode tmp) {
+        tmp.thisscope = cur;
         tmp.Array.accept(this);
         tmp.Index.accept(this);
         if(!tmp.Index.type.is_int()) {
@@ -398,12 +406,11 @@ public class SemanticChecker implements ASTvisitor {
         if(!(tmp.Array.type instanceof ArrayType)) throw new SemanticError("Wrong Array",tmp.pos);
         if(((ArrayType) tmp.Array.type).dim>1)tmp.type=new ArrayType(((ArrayType) tmp.Array.type).type,((ArrayType) tmp.Array.type).dim-1);
         else tmp.type = ((ArrayType) tmp.Array.type).type;
-        tmp.thisscope = cur;
     }
 
     @Override
     public void visit(FuncExprNode tmp) {
-
+        tmp.thisscope = cur;
         FuncSymbol whichFunc;
         if(tmp.funcname instanceof VarExprNode) {
             whichFunc = cur.Get_Func(((VarExprNode) tmp.funcname).Name,true,tmp.pos);
@@ -422,17 +429,18 @@ public class SemanticChecker implements ASTvisitor {
             tmp.paras.get(i).accept(this);
             if(!tmp.paras.get(i).type.equal(whichFunc.paras.get(i).type)) throw new SemanticError("Wrong Parameters Type",tmp.pos);
         }
-        tmp.thisscope = cur;
+//        tmp.thisscope = cur;
     }
 
     @Override
     public void visit(NewExprNode tmp) {
+        tmp.thisscope = cur;
         tmp.type=global.Get_Type(tmp.tp);
         for (ExprNode x : tmp.Exprlist) {
             x.accept(this);
             if(!x.type.is_int()) throw new SemanticError("Index is not a integer",tmp.pos);
         }
-        tmp.thisscope = cur;
+//        tmp.thisscope = cur;
     }
 
     @Override
@@ -447,6 +455,7 @@ public class SemanticChecker implements ASTvisitor {
 
     @Override
     public void visit(SinglevarDefStatementNode tmp) {
+        tmp.thisscope = cur;
         Type temp = global.Get_Type(tmp.type);
         if(tmp.expr!=null) {
             tmp.expr.accept(this);
@@ -456,12 +465,14 @@ public class SemanticChecker implements ASTvisitor {
         }
         if(temp.is_void()) throw new SemanticError("void var",tmp.pos);
         cur.New_Var(tmp.Identifier,new VarSymbol(tmp.Identifier,temp),tmp.pos);
-        tmp.thisscope = cur;
+//        tmp.thisscope = cur;
     }
 
     @Override
     public void visit(VarExprNode tmp) {
+        tmp.thisscope = cur;
+        tmp.var = cur.Get_Var(tmp.Name,true,tmp.pos);
         tmp.type = cur.Get_Var(tmp.Name,true,tmp.pos).type;
-
+//        tmp.thisscope = cur;
     }
 }

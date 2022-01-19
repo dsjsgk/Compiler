@@ -8,7 +8,7 @@ public class IRArrayType extends BaseType {
         this.sz = size;
     }
     @Override public String toString() {
-        return "[" + this.sz + "x"+tp.toString()+"]";
+        return "[" + this.sz + " x "+tp.toString()+"]";
     }
     @Override public int size() {
         return sz;

@@ -11,11 +11,18 @@ public class GetElementPtrInst extends Inst{
         this.res=res;
         this.addr = addr;
         this.index = index;
+//        System.out.println(res.toString());
+//        System.out.println(index.get(0).toString());
     }
     @Override public String toString () {
-        String ans;
-        ans=res.toString() + " = " + "getelementptr ";
-        ans=ans+")";
-        return ans;
+        StringBuilder ans = new StringBuilder();
+        ans.append(res.toString() + " = " + "getelementptr ");
+        ans.append(((PointerType)addr.tp).tp.toString()+", "+addr.tp.toString()+" "+addr.toString());
+        for(operand tmp:index) {
+            ans.append(", "+tmp.tp.toString()+" "+tmp.toString());
+        }
+        return ans.toString();
     }
+    @Override
+    public void accept(IRvisitor tmp) {tmp.visit(this);}
 }

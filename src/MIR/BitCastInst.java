@@ -11,6 +11,8 @@ public class BitCastInst extends Inst{
         this.obj = obj;
     }
     @Override public String toString () {
-        return res.toString() + " = " + "bitcast "+obj.tp.toString()+" "+obj.toString() +tp.toString();
+        return res.toString() + " = " + "bitcast "+obj.tp.toString()+" "+obj.toString() +" to "+tp.toString();
     }
+    @Override
+    public void accept(IRvisitor tmp) {tmp.visit(this);}
 }

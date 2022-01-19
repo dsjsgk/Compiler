@@ -24,4 +24,6 @@ public class CmpInst extends Inst{
     @Override public String toString(){
         return ans.toString() + " = icmp " + op.name()+" "+tp.toString()+" "+lhs.toString()+", "+rhs.toString();
     }
+    @Override
+    public void accept(IRvisitor tmp) {tmp.visit(this);}
 }

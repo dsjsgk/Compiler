@@ -11,6 +11,8 @@ public class LoadInst extends Inst{
         this.tp = tp;
     }
     @Override public String toString() {
-        return res.toString() + " = Load "+ tp.toString() + ", " + addr.tp.toString() + " " +addr.toString();
+        return res.toString() + " = load "+ tp.toString() + ", " + addr.tp.toString() + " " +addr.toString();
     }
+    @Override
+    public void accept(IRvisitor tmp) {tmp.visit(this);}
 }

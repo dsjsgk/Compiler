@@ -19,107 +19,109 @@ public class IRModule {
         //void print(string str);
         ArrayList<Parameter> para_pr = new ArrayList<Parameter>();
         para_pr.add(new Parameter(new PointerType(new IntType(8)),"str"));
-        IRFunction str_func = new IRFunction("mx*_print",this,para_pr,new VoidType(),true);
-        Sys_Funcs.put("mx*_print",str_func);
+        IRFunction str_func = new IRFunction("mx_print",this,para_pr,new VoidType(),true);
+        Sys_Funcs.put("mx_print",str_func);
         //void println(string str);
         ArrayList<Parameter> para_println = new ArrayList<Parameter>();
         para_println.add(new Parameter(new PointerType(new IntType(8)),"str"));
-        IRFunction println_func = new IRFunction("mx*_println",this,para_println,new VoidType(),true);
-        Sys_Funcs.put("mx*_println",println_func);
+//        System.out.println(para_println.size());
+        IRFunction println_func = new IRFunction("mx_println",this,para_println,new VoidType(),true);
+        Sys_Funcs.put("mx_println",println_func);
         //void printInt(int n);
         ArrayList<Parameter> para_printInt = new ArrayList<Parameter>();
-        para_println.add(new Parameter(new IntType(32),"n"));
-        IRFunction printInt_func = new IRFunction("mx*_printInt",this,para_printInt,new VoidType(),true);
-        Sys_Funcs.put("mx*_printInt",printInt_func);
+        para_printInt.add(new Parameter(new IntType(32),"n"));
+        IRFunction printInt_func = new IRFunction("mx_printInt",this,para_printInt,new VoidType(),true);
+        Sys_Funcs.put("mx_printInt",printInt_func);
         //void printlnInt(int n);
         ArrayList<Parameter> para_printlnInt = new ArrayList<Parameter>();
-        para_println.add(new Parameter(new IntType(32),"n"));
-        IRFunction printlnInt_func = new IRFunction("mx*_printlnInt",this,para_printlnInt,new VoidType(),true);
-        Sys_Funcs.put("mx*_printlnInt",printlnInt_func);
+        para_printlnInt.add(new Parameter(new IntType(32),"n"));
+        IRFunction printlnInt_func = new IRFunction("mx_printlnInt",this,para_printlnInt,new VoidType(),true);
+        Sys_Funcs.put("mx_printlnInt",printlnInt_func);
         //string getString();
         ArrayList<Parameter> para_getString = new ArrayList<Parameter>();
 //        para_println.add(new Parameter(new IntType(32),"str"));
-        IRFunction getString_func = new IRFunction("mx*_getString",this,para_getString,new PointerType(new IntType(8)),true);
-        Sys_Funcs.put("mx*_getString",getString_func);
+        IRFunction getString_func = new IRFunction("mx_getString",this,para_getString,new PointerType(new IntType(8)),true);
+        Sys_Funcs.put("mx_getString",getString_func);
         //int getInt();
         ArrayList<Parameter> para_getInt = new ArrayList<Parameter>();
 //        para_println.add(new Parameter(new IntType(32),"str"));
-        IRFunction getInt_func = new IRFunction("mx*_getInt",this,para_getInt,new IntType(32),true);
-        Sys_Funcs.put("mx*_getInt",getInt_func);
+        IRFunction getInt_func = new IRFunction("mx_getInt",this,para_getInt,new IntType(32),true);
+        Sys_Funcs.put("mx_getInt",getInt_func);
         //string toString(int i);
         ArrayList<Parameter> para_toString = new ArrayList<Parameter>();
-        para_println.add(new Parameter(new IntType(32),"i"));
-        IRFunction toString_func = new IRFunction("mx*_toString",this,para_toString,new PointerType(new IntType(8)),true);
-        Sys_Funcs.put("mx*_toString",toString_func);
+        para_toString.add(new Parameter(new IntType(32),"i"));
+        IRFunction toString_func = new IRFunction("mx_toString",this,para_toString,new PointerType(new IntType(8)),true);
+        Sys_Funcs.put("mx_toString",toString_func);
         //malloc(size)
         ArrayList<Parameter> para_malloc = new ArrayList<>();
         para_malloc.add(new Parameter(new IntType(32),"SizeOfMalloc"));
-        IRFunction malloc_func = new IRFunction("mx*_malloc",this,para_malloc,new PointerType(new IntType(8)),true);
-        Sys_Funcs.put("mx*_malloc",malloc_func);
+        IRFunction malloc_func = new IRFunction("mx_malloc",this,para_malloc,new PointerType(new IntType(8)),true);
+        Sys_Funcs.put("mx_malloc",malloc_func);
         //String StringAdd(a,b)
         ArrayList<Parameter> para_StringAdd = new ArrayList<>();
         para_StringAdd.add(new Parameter(string_tp,"a"));
         para_StringAdd.add(new Parameter(string_tp,"b"));
-        IRFunction StringAdd_func = new IRFunction("mx*_string_add",this,para_StringAdd,string_tp,true);
-        Sys_Funcs.put("mx*_string_add",StringAdd_func);
+        IRFunction StringAdd_func = new IRFunction("mx_str_add",this,para_StringAdd,string_tp,true);
+        Sys_Funcs.put("mx_str_add",StringAdd_func);
         //String Stringlt(a,b)
         ArrayList<Parameter> para_Stringlt = new ArrayList<>();
         para_Stringlt.add(new Parameter(string_tp,"a"));
         para_Stringlt.add(new Parameter(string_tp,"b"));
-        IRFunction Stringlt_func = new IRFunction("mx*_string_lt",this,para_Stringlt,new IntType(1),true);
-        Sys_Funcs.put("mx*_string_lt",Stringlt_func);
+        IRFunction Stringlt_func = new IRFunction("mx_string_lt",this,para_Stringlt,new IntType(1),true);
+        Sys_Funcs.put("mx_string_lt",Stringlt_func);
         //String Stringgt(a,b)
         ArrayList<Parameter> para_Stringgt = new ArrayList<>();
         para_Stringgt.add(new Parameter(string_tp,"a"));
         para_Stringgt.add(new Parameter(string_tp,"b"));
-        IRFunction Stringgt_func = new IRFunction("mx*_string_gt",this,para_Stringgt,new IntType(1),true);
-        Sys_Funcs.put("mx*_string_gt",Stringgt_func);
+        IRFunction Stringgt_func = new IRFunction("mx_string_gt",this,para_Stringgt,new IntType(1),true);
+        Sys_Funcs.put("mx_string_gt",Stringgt_func);
         //String Stringge(a,b)
         ArrayList<Parameter> para_Stringge = new ArrayList<>();
         para_Stringge.add(new Parameter(string_tp,"a"));
         para_Stringge.add(new Parameter(string_tp,"b"));
-        IRFunction Stringge_func = new IRFunction("mx*_string_ge",this,para_Stringge,new IntType(1),true);
-        Sys_Funcs.put("mx*_string_ge",Stringge_func);
+        IRFunction Stringge_func = new IRFunction("mx_string_ge",this,para_Stringge,new IntType(1),true);
+        Sys_Funcs.put("mx_string_ge",Stringge_func);
         //String Stringle(a,b)
         ArrayList<Parameter> para_Stringle = new ArrayList<>();
         para_Stringle.add(new Parameter(string_tp,"a"));
         para_Stringle.add(new Parameter(string_tp,"b"));
-        IRFunction Stringle_func = new IRFunction("mx*_string_le",this,para_Stringle,new IntType(1),true);
-        Sys_Funcs.put("mx*_string_le",Stringle_func);
+        IRFunction Stringle_func = new IRFunction("mx_string_le",this,para_Stringle,new IntType(1),true);
+        Sys_Funcs.put("mx_string_le",Stringle_func);
         //String Stringeq(a,b)
         ArrayList<Parameter> para_Stringeq = new ArrayList<>();
         para_Stringeq.add(new Parameter(string_tp,"a"));
         para_Stringeq.add(new Parameter(string_tp,"b"));
-        IRFunction Stringeq_func = new IRFunction("mx*_string_eq",this,para_Stringeq,new IntType(1),true);
-        Sys_Funcs.put("mx*_string_eq",Stringeq_func);
+        IRFunction Stringeq_func = new IRFunction("mx_string_eq",this,para_Stringeq,new IntType(1),true);
+        Sys_Funcs.put("mx_string_eq",Stringeq_func);
         //String Stringne(a,b)
         ArrayList<Parameter> para_Stringne = new ArrayList<>();
         para_Stringne.add(new Parameter(string_tp,"a"));
         para_Stringne.add(new Parameter(string_tp,"b"));
-        IRFunction Stringne_func = new IRFunction("mx*_string_ne",this,para_Stringne,new IntType(1),true);
-        Sys_Funcs.put("mx*_string_ne",Stringne_func);
+        IRFunction Stringne_func = new IRFunction("mx_string_ne",this,para_Stringne,new IntType(1),true);
+        Sys_Funcs.put("mx_string_ne",Stringne_func);
         //String StringLength(a)
         ArrayList<Parameter> para_StringLength = new ArrayList<>();
         para_StringLength.add(new Parameter(string_tp,"a"));
-        IRFunction StringLength_func = new IRFunction("mx*_string_length",this,para_StringLength,new IntType(32),true);
-        Sys_Funcs.put("mx*_string_length",StringLength_func);
+        IRFunction StringLength_func = new IRFunction("mx_string_length",this,para_StringLength,new IntType(32),true);
+        Sys_Funcs.put("mx_string_length",StringLength_func);
         //String StringSubstring(a,l,r)
         ArrayList<Parameter> para_StringSubstring = new ArrayList<>();
         para_StringSubstring.add(new Parameter(string_tp,"a"));
         para_StringSubstring.add(new Parameter(new IntType(32),"l"));
         para_StringSubstring.add(new Parameter(new IntType(32),"r"));
-        IRFunction StringSubstring_func = new IRFunction("mx*_string_substring",this,para_StringSubstring,string_tp,true);
-        Sys_Funcs.put("mx*_string_substring",StringSubstring_func);
+        IRFunction StringSubstring_func = new IRFunction("mx_string_substring",this,para_StringSubstring,string_tp,true);
+        Sys_Funcs.put("mx_string_substring",StringSubstring_func);
         //String StringParseInt(a)
         ArrayList<Parameter> para_StringParseInt = new ArrayList<>();
         para_StringParseInt.add(new Parameter(string_tp,"a"));
-        IRFunction StringParseInt_func = new IRFunction("mx*_string_parseInt",this,para_StringParseInt,new IntType(32),true);
-        Sys_Funcs.put("mx*_string_parseInt",StringParseInt_func);
+        IRFunction StringParseInt_func = new IRFunction("mx_string_parseInt",this,para_StringParseInt,new IntType(32),true);
+        Sys_Funcs.put("mx_string_parseInt",StringParseInt_func);
         //String StringOrd(a)
         ArrayList<Parameter> para_StringOrd = new ArrayList<>();
         para_StringOrd.add(new Parameter(string_tp,"a"));
-        IRFunction StringOrd_func = new IRFunction("mx*_string_ord",this,para_StringOrd,new IntType(32),true);
-        Sys_Funcs.put("mx*_string_ord",StringOrd_func);
+        para_StringOrd.add(new Parameter(new IntType(32),"pos"));
+        IRFunction StringOrd_func = new IRFunction("mx_string_ord",this,para_StringOrd,new IntType(32),true);
+        Sys_Funcs.put("mx_string_ord",StringOrd_func);
         //////////////////////////////////////
         IRFunction Init = new IRFunction("_init_",this,new ArrayList<>(),new VoidType(),false);
         Funcs.put("_init_",Init);
@@ -130,7 +132,7 @@ public class IRModule {
     public GlobalReg addStringConst(String str) {
         str = str.replace("\\\\", "\\");
         str = str.replace("\\n", "\n");
-        str = str.replace("\\\"", "\"");
+            str = str.replace("\\\"", "\"");
         str = str + "\0";
         if (StringConsts.containsKey(str)) {
             return StringConsts.get(str);

@@ -81,6 +81,8 @@ public class Init implements ASTvisitor {
             temp.isinClass=true;
             tmp.Paralist.forEach(x -> temp.paras.add(new VarSymbol(x.Identifier,global.Get_Type(x.type))));
             cur.New_Function(tmp.Name,temp,tmp.pos);
+            global.New_Function(inClass+"."+tmp.Name,temp,tmp.pos);
+//            global.New_Function(tmp.Name,temp,tmp.pos);
         }
     }
 
@@ -110,6 +112,8 @@ public class Init implements ASTvisitor {
                 FuncSymbol ctr=new FuncSymbol(tmp.Classname);
                 ctr.type=global.Get_Type(inClass,true,tmp.pos);
                 ((ClassType)global.Types.get(inClass)).Constructor=ctr;
+                global.New_Function(tmp.Classname+"."+tmp.Classname,ctr,tmp.pos);
+//                global.New_Function(tmp.Classname,ctr,tmp.pos);
                 if(tmp.Constructor.Paralist.size()!=0) {
                     throw new SemanticError("Wrong Constructor!",tmp.Constructor.pos);
                 }

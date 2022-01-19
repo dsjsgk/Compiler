@@ -9,6 +9,9 @@ public class RetInst extends Inst{
         this.val=val;
     }
     @Override public String toString () {
+        if(tp instanceof NullType||tp instanceof VoidType) return "ret void";
         return "ret "+ tp.toString()+" "+val.toString();
     }
+    @Override
+    public void accept(IRvisitor tmp) {tmp.visit(this);}
 }

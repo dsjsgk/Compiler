@@ -17,5 +17,6 @@ public class BinaryInst extends Inst{
     @Override public String toString(){
         return res.toString() + " = "+op.name() + " " + res.tp.toString() + " "+lhs.toString()+ ", " +rhs.toString();
     }
-
+    @Override
+    public void accept(IRvisitor tmp) {tmp.visit(this);}
 }

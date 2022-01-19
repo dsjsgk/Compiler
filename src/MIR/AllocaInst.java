@@ -11,4 +11,6 @@ public class AllocaInst extends Inst{
     @Override public String toString () {
         return res.toString() + " = " + "alloca "+tp.toString();
     }
+    @Override
+    public void accept(IRvisitor tmp) {tmp.visit(this);}
 }

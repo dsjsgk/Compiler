@@ -46,6 +46,7 @@ public class Scope {
         return _Parent.Get_Func(id,up,pos);
     }
     public VarSymbol Get_Var(String id,boolean up,position pos) {
+//        System.out.println(id);
         if(Vars.containsKey(id)) return Vars.get(id);
         if(!up||_Parent==null) throw new SemanticError("Wrong Variable",pos);
         return _Parent.Get_Var(id,up,pos);

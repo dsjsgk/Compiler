@@ -7,7 +7,7 @@ public class FuncType extends BaseType{
         this.ret_tp = ret_tp;
         this.para_tp = para_tp;
     }
-    @Override public String toString(){return "";}
+    @Override public String toString(){return null;}
     @Override public int size() {
         return 0;
     }

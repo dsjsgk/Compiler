@@ -10,6 +10,8 @@ public class BranchInst extends Inst{
         this.cond = cond;
     }
     @Override public String toString() {
-        return cond==null?("br i1 "+cond.toString()+", label "+b1.toString()+", label"+b2.toString()):("br label "+b1.toString());
+        return cond!=null?("br i1 "+cond.toString()+", label "+b1.toString()+", label "+b2.toString()):("br label "+b1.toString());
     }
+    @Override
+    public void accept(IRvisitor tmp) {tmp.visit(this);}
 }

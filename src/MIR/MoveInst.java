@@ -13,4 +13,6 @@ public class MoveInst extends Inst{
     @Override public String toString() {
         return "move " + res.toString()+ " "+tmp.toString();
     }
+    @Override
+    public void accept(IRvisitor tmp) {tmp.visit(this);}
 }
