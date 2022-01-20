@@ -23,7 +23,6 @@ public class IRClassType extends BaseType{
         }
         return sum;
     }
-
     @Override public String toString () {
         return "%class." + id;
     }
@@ -38,7 +37,7 @@ public class IRClassType extends BaseType{
         }return ans.toString();
     }
     @Override public int size() {
-        return 0;
+        return CalcSize();
     }
     @Override public operand defaultval() {
         return null;

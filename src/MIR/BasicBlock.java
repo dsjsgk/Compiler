@@ -9,7 +9,6 @@ public class BasicBlock {
     public static int Num = 0;
     public BasicBlock(IRFunction func,String id) {
         this.func = func; this.id = id + (++Num);
-
         pre_block = null;
         nxt_block = null;
         begin_Inst = null;
@@ -38,6 +37,29 @@ public class BasicBlock {
             tmp.Nxt = begin_Inst;
             begin_Inst = tmp;
         }
+    }
+    public void _Init() {
+        Inst ptr = begin_Inst;
+        while(ptr!=null) {
+            if(ptr instanceof BranchInst) {
+                if(((BranchInst) ptr).b1!=null) {
+                    ((BranchInst) ptr).b1.predecessors.add(this);
+                    this.successors.add(((BranchInst) ptr).b1);
+                }
+                if(((BranchInst) ptr).b2!=null) {
+                    ((BranchInst) ptr).b2.predecessors.add(this);
+                    this.successors.add(((BranchInst) ptr).b2);
+                }
+            }
+            ptr = ptr.Nxt;
+        }
+    }
+    public void addInstBefore(Inst a,Inst b) {
+        if(a==begin_Inst) begin_Inst = b;
+        b.Pre = a.Pre;
+        b.Nxt = a;
+        if(a.Pre!=null) a.Pre.Nxt = b;
+        a.Pre = b;
     }
     public void accept(IRvisitor tmp){
         tmp.visit(this);

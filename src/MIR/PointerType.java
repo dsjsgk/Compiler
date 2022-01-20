@@ -7,8 +7,8 @@ public class PointerType extends BaseType{
         return this.tp.toString() + "*";
     }
     @Override public int size() {
-//        return 4;
-        return 8;
+        return 4;
+//        return 8;
     }
     @Override public operand defaultval(){
         return new NullConst(new NullType());

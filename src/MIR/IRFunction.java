@@ -76,6 +76,14 @@ public class IRFunction extends Basis{
 
         return header.toString();
     }
+    public void addBlockAfter(BasicBlock a,BasicBlock b){
+        if(a==exit) exit = b;
+        b.nxt_block = a.nxt_block;
+        a.pre_block = a;
+        if(a.nxt_block!=null) a.nxt_block.pre_block = b;
+        a.nxt_block = b;
+    }
+
     public String toString() {
         return "@"+id;
     }

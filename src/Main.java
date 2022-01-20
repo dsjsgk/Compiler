@@ -1,5 +1,6 @@
 import AST.ProgramNode;
 import BackEnd.IRBuilder;
+import BackEnd.IRDestructPhi;
 import BackEnd.IRPrinter;
 import FrontEnd.ASTBuilder;
 import FrontEnd.SemanticChecker;
@@ -41,6 +42,9 @@ public class Main {
             IRBuilder _IRBuilder = new IRBuilder(global);
             _IRBuilder.visit(rt);
             IRModule _IRModule = _IRBuilder.Mod;
+            IRDestructPhi _IRDestrucPhi = new IRDestructPhi(_IRModule);
+            _IRDestrucPhi.DoThisMod();
+            _IRModule = _IRDestrucPhi.thisModule;
             (new IRPrinter("lab/output-O0.ll")).visit(_IRModule);
         } catch (Error er) {
             System.err.println(er.toString());
