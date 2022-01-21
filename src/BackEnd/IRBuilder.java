@@ -469,7 +469,7 @@ public class IRBuilder implements ASTvisitor {
             }
         }
         else throw new SemanticError("Unknown Suffix Operator",tmp.pos);
-        result.put(tmp,res);
+        result.put(tmp,Son_res);
         address.put(tmp,null);
     }
 
