@@ -1,7 +1,6 @@
+import ASM.Operand.PhysicalReg;
 import AST.ProgramNode;
-import BackEnd.IRBuilder;
-import BackEnd.IRDestructPhi;
-import BackEnd.IRPrinter;
+import BackEnd.*;
 import FrontEnd.ASTBuilder;
 import FrontEnd.SemanticChecker;
 import FrontEnd.Init;
@@ -19,9 +18,15 @@ import java.io.InputStream;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-//        InputStream input = System.in;
-        String name = "test.mx";
-        FileInputStream input = new FileInputStream(name);
+        InputStream input = System.in;
+//        String name = "test.mx";
+//        FileInputStream input = new FileInputStream(name);
+        boolean codegen  = true;
+        if (args.length>0) {
+            for (String arg:args) {
+                if(arg.equals("-semantic")) codegen = false;
+            }
+        }
         try {
             ProgramNode rt;
             MxstarLexer lexer = new MxstarLexer(CharStreams.fromStream(input));
@@ -37,15 +42,23 @@ public class Main {
             new Init(global).visit(rt);
             global.Vars.clear();
             new SemanticChecker(global).visit(rt);
+            PhysicalReg.Init();
 //            new IRBuilder(global).visit(rt);
 //            throw new RuntimeException();
+            if(!codegen) return ;
             IRBuilder _IRBuilder = new IRBuilder(global);
             _IRBuilder.visit(rt);
             IRModule _IRModule = _IRBuilder.Mod;
             IRDestructPhi _IRDestrucPhi = new IRDestructPhi(_IRModule);
             _IRDestrucPhi.DoThisMod();
             _IRModule = _IRDestrucPhi.thisModule;
-            (new IRPrinter("lab/output-O0.ll")).visit(_IRModule);
+//            (new IRPrinter("lab/output-O0.ll")).visit(_IRModule);
+            ASMBuilder _ASMBuilder = new ASMBuilder(_IRModule);
+            _ASMBuilder.visit(_IRModule);
+            RegAllocator _RegAllocator = new RegAllocator();
+            _RegAllocator.RegAllocate(_ASMBuilder.thisASMModule);
+            ASMPrinter _ASMPrinter = new ASMPrinter();
+            _ASMPrinter.PrintMod(_ASMBuilder.thisASMModule);
         } catch (Error er) {
             System.err.println(er.toString());
             throw new RuntimeException();

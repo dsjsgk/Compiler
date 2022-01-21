@@ -1,5 +1,6 @@
 package ASM;
 
+import MIR.Inst;
 import MIR.PhiInst;
 
 public class ASMBasicBlock extends ASMBase{
@@ -32,6 +33,28 @@ public class ASMBasicBlock extends ASMBase{
             nwInst.Nxt = Inst_begin;
             Inst_begin = nwInst;
         }
+    }
+    public void addBefore(ASMInst oldInst,ASMInst nwInst) {
+        if(oldInst== Inst_begin) {
+            Inst_begin = nwInst;
+        }
+        nwInst.Nxt = oldInst;
+        nwInst.Pre = oldInst.Pre;
+        if(oldInst.Pre!=null) {
+            oldInst.Pre.Nxt = nwInst;
+        }
+        oldInst.Pre = nwInst;
+    }
+    public void addAfter(ASMInst oldInst,ASMInst nwInst) {
+        if(oldInst== Inst_end) {
+            Inst_end = nwInst;
+        }
+        nwInst.Nxt = oldInst.Nxt;
+        nwInst.Pre = oldInst;
+        if(oldInst.Nxt!=null) {
+            oldInst.Nxt.Pre = nwInst;
+        }
+        oldInst.Nxt = nwInst;
     }
     @Override
     public String toString(){

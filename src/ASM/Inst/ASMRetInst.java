@@ -1,26 +1,23 @@
 package ASM.Inst;
 
+import ASM.ASMBase;
 import ASM.ASMBasicBlock;
 import ASM.ASMInst;
 import ASM.Operand.VirtualReg;
 
-public class ASMJInst extends ASMInst {
-    public ASMBasicBlock goal;
-    public ASMJInst(ASMBasicBlock goal,ASMBasicBlock bel) {
+public class ASMRetInst extends ASMInst {
+    public ASMRetInst(ASMBasicBlock bel) {
         super(bel);
-        this.goal = goal;
-
     }
     @Override
-    public String toString(){
-        return "j\t"+goal.toString();
+    public String toString () {
+        return "ret";
     }
-    @Override
     public void replaceRd(VirtualReg a, VirtualReg b) {
 //        if(rd == a) rd = b;
     }
     @Override
     public void replaceRs(VirtualReg a,VirtualReg b) {
-//        if(rs1 == a) rs1 = b;if(rs2 == a) rs2 = b;
+//        if(rs == a) rs = b;if(addr.Base == a) addr.Base = b;
     }
 }

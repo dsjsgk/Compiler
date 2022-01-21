@@ -52,6 +52,7 @@ public class ASMBuilder implements IRvisitor {
             }
             else {
                 VirtualReg reg = new VirtualReg("const.bool");
+
                 curBlock.addBack(new ASMBinaryInst(reg,PhysicalReg.getv("zero"),null,new IntImm(1),ASMBinaryInst.Op.addi,curBlock));
                 return reg;
             }
@@ -142,12 +143,13 @@ public class ASMBuilder implements IRvisitor {
             ASMFunction nw = new ASMFunction(thisASMModule,sysfunc);
             thisASMModule.Sys_Funcs.put(nw.Identifier,nw);
         }
-        for(IRFunction sysfunc:tmp.Sys_Funcs.values()) {
+        for(IRFunction sysfunc:tmp.Funcs.values()) {
             sysfunc.accept(this);
         }
     }
     @Override
     public void visit(IRFunction tmp){
+//        System.out.println(tmp.id);
         curFunc = thisASMModule.Funcs.get(tmp.id);
         curBlock = curFunc.entry;
         curFunc.stk = new StackFrame(curFunc);
@@ -208,8 +210,16 @@ public class ASMBuilder implements IRvisitor {
         for(int i=0;i<Integer.min(8,tmp.paras_list.size());++i) {
             curBlock.addBack(new ASMMvInst(PhysicalReg.getv("a"+i),getVirtualReg(tmp.paras_list.get(i)),curBlock));
         }
-        for(int i=8;i<tmp.paras_list.size();++i){
-            curBlock.addBack(new ASMStoreInst(getVirtualReg(tmp.paras_list.get(i)),thisFunc.stk.ParameterAddr.get(i-8), ASMStoreInst.Op.sw,curBlock));
+        StackFrame stk = curFunc.stk;
+        if(!stk.CalleeAddr.containsKey(thisFunc)) {
+            ArrayList<ASMAddress> para_list = new ArrayList<>();
+            for (int i = 8; i < tmp.paras_list.size(); ++i) {
+                para_list.add(new ASMAddress(PhysicalReg.getv("sp"),new IntImm(0)));
+            }
+            stk.CalleeAddr.put(thisFunc,para_list);
+        }
+        for (int i = 8; i < tmp.paras_list.size(); ++i) {
+            curBlock.addBack(new ASMStoreInst(getVirtualReg(tmp.paras_list.get(i)),stk.CalleeAddr.get(thisFunc).get(i-8), ASMStoreInst.Op.sw,curBlock));
         }
         curBlock.addBack(new ASMCallInst(thisFunc,curBlock));
         if(!(tmp.func.functp.ret_tp instanceof VoidType)&&!(tmp.func.functp.ret_tp instanceof NullType)){
@@ -225,15 +235,18 @@ public class ASMBuilder implements IRvisitor {
         switch (tmp.op)
         {
             case sle -> {
+
                 curBlock.addBack(new ASMBinaryInst(temp,rs2,rs1,null, ASMBinaryInst.Op.slt,curBlock));
                 curBlock.addBack(new ASMBinaryInst(rd,temp,null,new IntImm(1) ,ASMBinaryInst.Op.xori,curBlock));
             }
             case slt -> {
-                curBlock.addBack(new ASMBinaryInst(temp,rs1,rs2,null, ASMBinaryInst.Op.slt,curBlock));
+
+                curBlock.addBack(new ASMBinaryInst(rd,rs1,rs2,null, ASMBinaryInst.Op.slt,curBlock));
 //                curBlock.addBack(new ASMBinaryInst(rd,temp,null,new IntImm(1) ,ASMBinaryInst.Op.xori,curBlock));
             }
             case sgt -> {
-                curBlock.addBack(new ASMBinaryInst(temp,rs2,rs1,null, ASMBinaryInst.Op.slt,curBlock));
+//                System.out.println("fuck");
+                curBlock.addBack(new ASMBinaryInst(rd,rs2,rs1,null, ASMBinaryInst.Op.slt,curBlock));
 //                curBlock.addBack(new ASMBinaryInst(rd,temp,null,new IntImm(1) ,ASMBinaryInst.Op.xori,curBlock));
             }
             case sge -> {
@@ -255,19 +268,66 @@ public class ASMBuilder implements IRvisitor {
     }
     @Override
     public void visit(GetElementPtrInst tmp){
-
+        VirtualReg ans = getVirtualReg(tmp.res);
+        if(tmp.addr instanceof GlobalReg) {
+            curBlock.addBack(new ASMLaInst(ans,thisASMModule.GlobalVars.get(((GlobalReg) tmp.addr).id),curBlock));
+            return ;
+        }
+        VirtualReg ptr = getVirtualReg(tmp.addr);
+        if(tmp.index.size()>1){
+            //class
+            int index0 = ((IntConst)tmp.index.get(0)).val;
+            int index1 = ((IntConst)tmp.index.get(1)).val;
+            if(index0!=0) {
+                assert false;
+            }
+            BaseType thisClass = ((PointerType)tmp.addr.tp).tp;
+            if(thisClass instanceof IRClassType) {
+                thisClass = thisIRModule.ClassMap.get(((IRClassType) thisClass).id);
+//                System.out.println(((IRClassType) thisClass).id);
+//                System.out.println(((IRClassType) thisClass).member_list.size());
+                int offset=0 ;
+                for(int i=0;i<index1;++i) {
+//                    System.out.println("Size: "+((IRClassType) thisClass).member_list.size());
+//                    System.out.println(i);
+                    offset += ((IRClassType) thisClass).member_list.get(i).size();
+                }
+                curBlock.addBack(new ASMBinaryInst(ans,ptr,null,new IntImm(offset), ASMBinaryInst.Op.addi,curBlock));
+            }
+            else {
+                assert false;
+            }
+        }
+        else {
+            VirtualReg temp = getVirtualReg(tmp.index.get(0));
+            VirtualReg Mid = new VirtualReg("temporary");
+            curBlock.addBack(new ASMBinaryInst(Mid,temp,null,new IntImm(2), ASMBinaryInst.Op.slli,curBlock));
+            curBlock.addBack(new ASMBinaryInst(ans,ptr,Mid,null, ASMBinaryInst.Op.add,curBlock));
+        }
     }
     @Override
     public void visit(LoadInst tmp){
-        //todo
-        VirtualReg rd = getVirtualReg(tmp.res);
-        VirtualReg addr_base = getVirtualReg(tmp.addr);
-        ASMAddress addr = new ASMAddress(addr_base,new IntImm(0));
-        if((tmp.tp instanceof IntType)&&((IntType) tmp.tp).size<=8) {
-            curBlock.addBack(new ASMLoadInst(rd,addr, ASMLoadInst.Op.lb,curBlock));
+        if(tmp.addr instanceof GlobalReg)
+        {
+            VirtualReg rd = getVirtualReg(tmp.res);
+            ASMGlobalVar thisVar = thisASMModule.GlobalVars.get(((GlobalReg) tmp.addr).id);
+            VirtualReg temp = new VirtualReg("temporaryForLoad");
+            curBlock.addBack(new ASMLaInst(temp,thisVar,curBlock));
+            if ((tmp.tp instanceof IntType) && ((IntType) tmp.tp).size <= 8) {
+                curBlock.addBack(new ASMLoadInst(rd,new ASMAddress(temp,new IntImm(0)), ASMLoadInst.Op.lb, curBlock));
+            } else {
+                curBlock.addBack(new ASMLoadInst(rd,new ASMAddress(temp,new IntImm(0)), ASMLoadInst.Op.lw, curBlock));
+            }
         }
         else {
-            curBlock.addBack(new ASMLoadInst(rd,addr, ASMLoadInst.Op.lw,curBlock));
+            VirtualReg rd = getVirtualReg(tmp.res);
+            VirtualReg addr_base = getVirtualReg(tmp.addr);
+            ASMAddress addr = new ASMAddress(addr_base, new IntImm(0));
+            if ((tmp.tp instanceof IntType) && ((IntType) tmp.tp).size <= 8) {
+                curBlock.addBack(new ASMLoadInst(rd, addr, ASMLoadInst.Op.lb, curBlock));
+            } else {
+                curBlock.addBack(new ASMLoadInst(rd, addr, ASMLoadInst.Op.lw, curBlock));
+            }
         }
     }
     @Override
@@ -294,10 +354,31 @@ public class ASMBuilder implements IRvisitor {
         }
         //return
         curBlock.addBack(new ASMMvInst(PhysicalReg.getv("ra"),ret_addr,curBlock));
+        curBlock.addBack(new ASMRetInst(curBlock));
     }
     @Override
     public void visit(StoreInst tmp){
-        //
+        if(tmp.addr instanceof GlobalReg) {
+            VirtualReg Val = getVirtualReg(tmp.val);
+            ASMGlobalVar thisVar = thisASMModule.GlobalVars.get(((GlobalReg) tmp.addr).id);
+            VirtualReg temp = new VirtualReg("temporaryForStore");
+            curBlock.addBack(new ASMLaInst(temp,thisVar,curBlock));
+            if ((tmp.val.tp instanceof IntType) && ((IntType) tmp.val.tp).size <= 8) {
+                curBlock.addBack(new ASMStoreInst(Val,new ASMAddress(temp,new IntImm(0)), ASMStoreInst.Op.sb, curBlock));
+            } else {
+                curBlock.addBack(new ASMStoreInst(Val,new ASMAddress(temp,new IntImm(0)), ASMStoreInst.Op.sw, curBlock));
+            }
+        }
+        else{
+            VirtualReg Val = getVirtualReg(tmp.val);
+            VirtualReg addr_base = getVirtualReg(tmp.addr);
+            ASMAddress addr = new ASMAddress(addr_base, new IntImm(0));
+            if ((tmp.val.tp instanceof IntType) && ((IntType) tmp.val.tp).size <= 8) {
+                curBlock.addBack(new ASMStoreInst(Val, addr, ASMStoreInst.Op.sb, curBlock));
+            } else {
+                curBlock.addBack(new ASMStoreInst(Val, addr, ASMStoreInst.Op.sw, curBlock));
+            }
+        }
     }
     @Override
     public void visit(BinaryInst tmp){

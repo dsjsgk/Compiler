@@ -1,8 +1,8 @@
 package ASM.Operand;
 
 public class ASMAddress extends ASMOperand{
-    IntImm offset;
-    VirtualReg Base;
+    public IntImm offset;
+    public VirtualReg Base;
     public ASMAddress(VirtualReg Base,IntImm offset) {
         this.offset = offset;
         this.Base = Base;

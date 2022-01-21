@@ -29,6 +29,7 @@ public class PhysicalReg extends ASMRegister{
         }
     }
     static public VirtualReg getv(String id) {
+//        System.out.println(virMap.containsKey("s0"));
         return virMap.get(id);
     }
     static public PhysicalReg getp(String id) {

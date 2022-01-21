@@ -17,9 +17,20 @@ public class ASMStoreInst extends ASMInst {
         this.rs = rs;
         this.addr = addr;
         this.tp = tp;
+        if(rs!=null) _rs.add(rs);
+//        if(rs2!=null) _rs.add(rs2);
+        if(rs!=null) _rs.add(addr.Base);
     }
     @Override
     public String toString(){
         return tp.name()+"\t"+rs.toString()+", "+addr.toString();
+    }
+    @Override
+    public void replaceRd(VirtualReg a,VirtualReg b) {
+//        if(rd == a) rd = b;
+    }
+    @Override
+    public void replaceRs(VirtualReg a,VirtualReg b) {
+        if(rs == a) rs = b;if(addr.Base == a) addr.Base = b;
     }
 }
