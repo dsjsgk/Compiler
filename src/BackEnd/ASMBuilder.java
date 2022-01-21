@@ -47,7 +47,7 @@ public class ASMBuilder implements IRvisitor {
             }
         }
         else if(tmp instanceof BoolConst) {
-            if(((BoolConst) tmp).val) {
+            if(!((BoolConst) tmp).val) {
                 return PhysicalReg.getv("zero");
             }
             else {
