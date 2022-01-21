@@ -2,6 +2,7 @@ package BackEnd;
 
 import ASM.*;
 import ASM.Inst.ASMBinaryInst;
+import ASM.Inst.ASMLiInst;
 import ASM.Inst.ASMLoadInst;
 import ASM.Inst.ASMStoreInst;
 import ASM.Operand.ASMAddress;
@@ -17,8 +18,10 @@ public class RegAllocator {
 
         for(ASMFunction thisFunc:thisMod.Funcs.values()) {
             HashMap<VirtualReg, ASMAddress> Addr_Map = new HashMap<>();
+            HashMap<VirtualReg, Integer> Imm_Map = new HashMap<VirtualReg, Integer>();
             StackFrame curStk = thisFunc.stk;
             curStk.SpaceSize = 0;
+            curStk.InitInit();
 //            ASMBasicBlock curBlock = thisFunc.entry;
             for(ASMBasicBlock curBlock = thisFunc.entry;curBlock!=null;curBlock = curBlock.nxt_Block) {
                 ASMInst curInst = curBlock.Inst_begin;
@@ -29,13 +32,18 @@ public class RegAllocator {
                     {
                         if(x.Allocated_Reg==null) {
                             if(!Addr_Map.containsKey(x)) {
-                                Addr_Map.put(x,new ASMAddress(PhysicalReg.getv("sp"),new IntImm(curStk.SpaceSize)));curStk.SpaceSize+=4;
+                                VirtualReg tempReg = PhysicalReg.getv("s7");
+                                Addr_Map.put(x,new ASMAddress(tempReg,new IntImm(0)));
+                                Imm_Map.put(x,curStk.SpaceSize);curStk.SpaceSize+=4;
                             }
                             ASMAddress curAddr = Addr_Map.get(x);
+                            VirtualReg tempReg2 = PhysicalReg.getv("s6");
                             VirtualReg phy_reg = PhysicalReg.getv("s"+cnt_phy);
 //                            System.out.println(phy_reg.toString());
                             curInst.replaceRd(x,phy_reg);
                             curBlock.addAfter(curInst,new ASMStoreInst(phy_reg,curAddr, ASMStoreInst.Op.sw,curBlock));
+                            curBlock.addAfter(curInst,new ASMBinaryInst(PhysicalReg.getv("s7"),tempReg2,PhysicalReg.getv("sp"),null,ASMBinaryInst.Op.add,curBlock));
+                            curBlock.addAfter(curInst,new ASMLiInst(tempReg2,new IntImm(Imm_Map.get(x)),curBlock));
                             cnt_phy ++;
                         }
                     }
@@ -43,11 +51,16 @@ public class RegAllocator {
                     {
                         if(x.Allocated_Reg==null) {
                             if(!Addr_Map.containsKey(x)) {
-                                Addr_Map.put(x,new ASMAddress(PhysicalReg.getv("sp"),new IntImm(curStk.SpaceSize)));curStk.SpaceSize+=4;
+                                VirtualReg tempReg = PhysicalReg.getv("s7");
+                                Addr_Map.put(x,new ASMAddress(PhysicalReg.getv("sp"),new IntImm(curStk.SpaceSize)));
+                                Imm_Map.put(x,curStk.SpaceSize);curStk.SpaceSize+=4;
                             }
                             ASMAddress curAddr = Addr_Map.get(x);
+                            VirtualReg tempReg2 = PhysicalReg.getv("s6");
                             VirtualReg phy_reg = PhysicalReg.getv("s"+cnt_phy);
                             curInst.replaceRs(x,phy_reg);
+                            curBlock.addBefore(curInst,new ASMLiInst(tempReg2,new IntImm(Imm_Map.get(x)),curBlock));
+                            curBlock.addBefore(curInst,new ASMBinaryInst(PhysicalReg.getv("s7"),tempReg2,PhysicalReg.getv("sp"),null,ASMBinaryInst.Op.add,curBlock));
                             curBlock.addBefore(curInst,new ASMLoadInst(phy_reg,curAddr, ASMLoadInst.Op.lw,curBlock));
                             cnt_phy ++;
                         }

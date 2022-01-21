@@ -17,9 +17,8 @@ public class StackFrame{
     public StackFrame(ASMFunction belFunc) {
         this.belFunc = belFunc;
     }
-    public void Init() {
+    public void InitInit() {
         SpaceSize = 0;
-        int offset = 0;
         for(ArrayList<ASMAddress> CalleeList : CalleeAddr.values()){
             int tmp = 0;
             for(int i=0;i<CalleeList.size();++i) {
@@ -28,12 +27,9 @@ public class StackFrame{
             }
             SpaceSize = Integer.max(tmp,SpaceSize);
         }
-        offset = SpaceSize;
-        for(int i=0;i<LocalRegAddr.size();++i) {
-            LocalRegAddr.get(i).offset = new IntImm(offset);
-            offset+=4;
-        }
-        SpaceSize = offset;
+    }
+    public void Init() {
+        int offset = SpaceSize;
         for(int i=0;i<ParameterAddr.size();++i) {
             ParameterAddr.get(i).offset = new IntImm(offset);
             offset+=4;

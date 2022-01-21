@@ -47,7 +47,7 @@ public class ASMBuilder implements IRvisitor {
             }
         }
         else if(tmp instanceof BoolConst) {
-            if(((BoolConst) tmp).val) {
+            if(!((BoolConst) tmp).val) {
                 return PhysicalReg.getv("zero");
             }
             else {
@@ -411,6 +411,7 @@ public class ASMBuilder implements IRvisitor {
                 curBlock.addBack(new ASMBinaryInst(rd,rs1,rs2,null, ASMBinaryInst.Op.and,curBlock));
             }
             case xor->{
+
                 curBlock.addBack(new ASMBinaryInst(rd,rs1,rs2,null, ASMBinaryInst.Op.xor,curBlock));
             }
             case or->{
