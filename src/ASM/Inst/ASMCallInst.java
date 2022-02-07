@@ -3,6 +3,7 @@ package ASM.Inst;
 import ASM.ASMBasicBlock;
 import ASM.ASMFunction;
 import ASM.ASMInst;
+import ASM.Operand.PhysicalReg;
 import ASM.Operand.VirtualReg;
 
 public class ASMCallInst extends ASMInst {
@@ -10,7 +11,11 @@ public class ASMCallInst extends ASMInst {
     public ASMCallInst(ASMFunction thisFunc, ASMBasicBlock bel) {
         super(bel);
         this.thisFunc = thisFunc;
-
+        for(int i=0;i<32;++i) {
+            if(PhysicalReg.Type.get(i).equals(PhysicalReg.type.caller)) {
+                _rd.add(PhysicalReg.getv(PhysicalReg.Name.get(i)));
+            }
+        }
     }
     @Override
     public String toString() {

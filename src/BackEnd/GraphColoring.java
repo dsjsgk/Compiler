@@ -438,7 +438,7 @@ public class GraphColoring {
     HashMap<VirtualReg,Integer> Imm_Map = new HashMap<>();
     public void RewriteProgram(HashSet<VirtualReg> NodeList,ASMFunction thisFunc) {
         for(VirtualReg thisReg:NodeList) {
-            if(Imm_Map.containsKey(thisReg)){
+            if(!Imm_Map.containsKey(thisReg)){
                 Imm_Map.put(thisReg,thisFunc.stk.SpaceSize);
                 thisFunc.stk.SpaceSize+=4;
             }

@@ -147,6 +147,7 @@ public class ASMBuilder implements IRvisitor {
             sysfunc.accept(this);
         }
     }
+    ArrayList<VirtualReg> Store_List;
     @Override
     public void visit(IRFunction tmp){
 //        System.out.println(tmp.id);
@@ -154,7 +155,17 @@ public class ASMBuilder implements IRvisitor {
         curBlock = curFunc.entry;
         curFunc.stk = new StackFrame(curFunc);
         ret_addr = new VirtualReg("_ra");
+
         curBlock.addBack(new ASMMvInst(ret_addr,PhysicalReg.getv("ra"),curBlock));
+        Store_List = new ArrayList<>();
+        for(int i=0;i<32;++i) {
+            if(PhysicalReg.Type.get(i).equals(PhysicalReg.type.callee)) {
+                VirtualReg Store = new VirtualReg("Save"+i);
+                curBlock.addBack(new ASMMvInst(Store,PhysicalReg.getv(PhysicalReg.Name.get(i)),curBlock));
+                Store_List.add(Store);
+            }
+            else Store_List.add(null);
+        }
         for(int i=0;i<Integer.min(8,tmp.paras_list.size());++i) {
             VirtualReg thispara = getVirtualReg(tmp.paras_list.get(i));
             curBlock.addBack(new ASMMvInst(thispara,PhysicalReg.getv("a"+i),curBlock));
@@ -349,6 +360,13 @@ public class ASMBuilder implements IRvisitor {
     @Override
     public void visit(RetInst tmp){
         //return val
+        for(int i=0;i<32;++i) {
+            if(PhysicalReg.Type.get(i).equals(PhysicalReg.type.callee)) {
+                curBlock.addBack(new ASMMvInst(PhysicalReg.getv(PhysicalReg.Name.get(i)),Store_List.get(i),curBlock));
+//                Store_List.add(Store);
+            }
+//            else Store_List.add(null);
+        }
         if(tmp.val!=null&&!(tmp.tp instanceof NullType)&&!(tmp.tp instanceof VoidType)) {
             curBlock.addBack(new ASMMvInst(PhysicalReg.getv("a0"),getVirtualReg(tmp.val),curBlock));
         }
