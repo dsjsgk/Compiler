@@ -478,6 +478,7 @@ public class GraphColoring {
         while(curBlock!=null) {
             ASMInst curInst = curBlock.Inst_begin;
             while(curInst != null) {
+                ArrayList<Pair<VirtualReg,VirtualReg>> tempList1 = new ArrayList<>(),tempList2 = new ArrayList<>();
                 for (VirtualReg r : curInst._rs) {
                     if(!NodeList.contains(r)) continue;
                     VirtualReg tempReg1 = new VirtualReg("temp1");
@@ -487,7 +488,8 @@ public class GraphColoring {
                     isSpilled .add(tempReg2);
                     isSpilled .add(tempReg3);
                     curInst.replaceRs(r,tempReg3);
-                    curInst.Replace_RS(r,tempReg3);
+                    tempList1.add(new Pair<>(r,tempReg3));
+//                    curInst.Replace_RS(r,tempReg3);
                     curBlock.addBefore(curInst,new ASMLiInst(tempReg1,new IntImm(Imm_Map.get(r)),curBlock));
                     curBlock.addBefore(curInst,new ASMBinaryInst(tempReg2,tempReg1,PhysicalReg.getv("sp"),null,ASMBinaryInst.Op.add,curBlock));
                     curBlock.addBefore(curInst,new ASMLoadInst(tempReg3,new ASMAddress(tempReg2,new IntImm(0)), ASMLoadInst.Op.lw,curBlock));
@@ -501,10 +503,17 @@ public class GraphColoring {
                     isSpilled .add(tempReg2);
                     isSpilled .add(tempReg3);
                     curInst.replaceRd(r,tempReg3);
-                    curInst.Replace_RD(r,tempReg3);
+                    tempList2.add(new Pair<>(r,tempReg3));
+//                    curInst.Replace_RD(r,tempReg3);
                     curBlock.addAfter(curInst,new ASMStoreInst(tempReg3,new ASMAddress(tempReg2,new IntImm(0)), ASMStoreInst.Op.sw,curBlock));
                     curBlock.addAfter(curInst,new ASMBinaryInst(tempReg2,tempReg1,PhysicalReg.getv("sp"),null,ASMBinaryInst.Op.add,curBlock));
                     curBlock.addAfter(curInst,new ASMLiInst(tempReg1,new IntImm(Imm_Map.get(r)),curBlock));
+                }
+                for(Pair<VirtualReg,VirtualReg> tmp:tempList1) {
+                    curInst.Replace_RS(tmp.a,tmp.b);
+                }
+                for(Pair<VirtualReg,VirtualReg> tmp:tempList2) {
+                    curInst.Replace_RD(tmp.a,tmp.b);
                 }
                 curInst = curInst.Nxt;
             }
