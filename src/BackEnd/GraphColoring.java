@@ -225,7 +225,7 @@ public class GraphColoring {
         }
         worklistMoves.remove(m);
         if(u==v) {
-            m.bel.remove(m);
+//            m.bel.remove(m);
             coalescedMoves.add(m);
             AddWorkList(u);
         }
@@ -242,7 +242,7 @@ public class GraphColoring {
             flag2 = (precolored_reg.contains(u));
             for(VirtualReg t:Adjacent(v)) flag2&=OK(t,u);
             if(flag1||flag2) {
-                m.bel.remove(m);
+//                m.bel.remove(m);
                 coalescedMoves.add(m);
                 Combine(u,v);
                 AddWorkList(u);
@@ -312,7 +312,7 @@ public class GraphColoring {
         VirtualReg res = null;
         int cur = -1;
         for(VirtualReg tmp:spillWorklist) {
-//            if(isSpilled.contains(tmp)) continue;
+            if(isSpilled.contains(tmp)) continue;
 
             if(degree.get(tmp)>cur) {
                 cur = degree.get(tmp);
@@ -439,6 +439,11 @@ public class GraphColoring {
         livenessanalysis(thisFunc);
         Build(thisFunc);
         MakeWorklist();
+//        System.out.println("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+//        for(VirtualReg tmp:initial_reg) {
+//            System.out.println(tmp.toString());
+//            System.out.println(degree.get(tmp));
+//        }
         while(true) {
             if(simplifyWorklist.size()!=0) Simplify();
             else if(worklistMoves.size()!=0) Coalesce();
@@ -454,6 +459,9 @@ public class GraphColoring {
             RewriteProgram(spilled_reg,thisFunc);
             DoThisFunc(thisFunc);
         }
+        for(ASMMvInst tmp:coalescedMoves) {
+//            tmp.bel.remove(tmp);
+        }
     }
     HashMap<VirtualReg,Integer> Imm_Map = new HashMap<>();
     public void RewriteProgram(HashSet<VirtualReg> NodeList,ASMFunction thisFunc) {
@@ -464,7 +472,6 @@ public class GraphColoring {
             if(!Imm_Map.containsKey(thisReg)){
                 Imm_Map.put(thisReg,thisFunc.stk.SpaceSize);
                 thisFunc.stk.SpaceSize+=4;
-//                System.out.println(thisReg.Identifier);
             }
         }
         ASMBasicBlock curBlock = thisFunc.entry;
@@ -473,9 +480,6 @@ public class GraphColoring {
             while(curInst != null) {
                 for (VirtualReg r : curInst._rs) {
                     if(!NodeList.contains(r)) continue;
-//                    System.out.println(r.toString());
-//                    System.out.println(r.Identifier);
-//                    System.out.println(curInst.toString());
                     VirtualReg tempReg1 = new VirtualReg("temp1");
                     VirtualReg tempReg2 = new VirtualReg("temp2");
                     VirtualReg tempReg3 = new VirtualReg("temp3");
@@ -483,6 +487,7 @@ public class GraphColoring {
                     isSpilled .add(tempReg2);
                     isSpilled .add(tempReg3);
                     curInst.replaceRs(r,tempReg3);
+                    curInst.Replace_RS(r,tempReg3);
                     curBlock.addBefore(curInst,new ASMLiInst(tempReg1,new IntImm(Imm_Map.get(r)),curBlock));
                     curBlock.addBefore(curInst,new ASMBinaryInst(tempReg2,tempReg1,PhysicalReg.getv("sp"),null,ASMBinaryInst.Op.add,curBlock));
                     curBlock.addBefore(curInst,new ASMLoadInst(tempReg3,new ASMAddress(tempReg2,new IntImm(0)), ASMLoadInst.Op.lw,curBlock));
@@ -496,6 +501,7 @@ public class GraphColoring {
                     isSpilled .add(tempReg2);
                     isSpilled .add(tempReg3);
                     curInst.replaceRd(r,tempReg3);
+                    curInst.Replace_RD(r,tempReg3);
                     curBlock.addAfter(curInst,new ASMStoreInst(tempReg3,new ASMAddress(tempReg2,new IntImm(0)), ASMStoreInst.Op.sw,curBlock));
                     curBlock.addAfter(curInst,new ASMBinaryInst(tempReg2,tempReg1,PhysicalReg.getv("sp"),null,ASMBinaryInst.Op.add,curBlock));
                     curBlock.addAfter(curInst,new ASMLiInst(tempReg1,new IntImm(Imm_Map.get(r)),curBlock));

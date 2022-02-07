@@ -4,6 +4,7 @@ import ASM.ASMBasicBlock;
 import ASM.ASMFunction;
 import ASM.ASMInst;
 import ASM.ASMModule;
+import ASM.Inst.ASMMvInst;
 import ASM.Operand.ASMGlobalVar;
 
 public class ASMPrinter {
@@ -53,8 +54,12 @@ public class ASMPrinter {
     public void PrintBlock(ASMBasicBlock curBlock){
         println(curBlock.Identifier + ":");
         indent = "\t";
-        for (ASMInst inst = curBlock.Inst_begin;inst!=null;inst = inst.Nxt)
+        for (ASMInst inst = curBlock.Inst_begin;inst!=null;inst = inst.Nxt) {
+            if(inst instanceof ASMMvInst&&((ASMMvInst) inst).rd.Allocated_Reg.Identifier.equals(((ASMMvInst) inst).rs.Allocated_Reg.Identifier)) {
+                continue;
+            }
             println(inst.toString());
+        }
         indent = "";
     }
 }

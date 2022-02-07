@@ -3,11 +3,13 @@ package ASM.Inst;
 import ASM.ASMBase;
 import ASM.ASMBasicBlock;
 import ASM.ASMInst;
+import ASM.Operand.PhysicalReg;
 import ASM.Operand.VirtualReg;
 
 public class ASMRetInst extends ASMInst {
     public ASMRetInst(ASMBasicBlock bel) {
         super(bel);
+//        _rs.add(PhysicalReg.getv("a0"));
     }
     @Override
     public String toString () {

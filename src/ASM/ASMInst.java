@@ -15,4 +15,10 @@ public abstract class ASMInst extends ASMBase {
     }
     abstract public void replaceRd(VirtualReg a,VirtualReg b);
     abstract public void replaceRs(VirtualReg a,VirtualReg b);
+    public void Replace_RS(VirtualReg a,VirtualReg b) {
+        while(_rs.contains(a)) {_rs.remove(a);_rs.add(b);}
+    }
+    public void Replace_RD(VirtualReg a,VirtualReg b) {
+        while(_rd.contains(a)) {_rd.remove(a);_rd.add(b);}
+    }
 }
