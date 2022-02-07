@@ -57,8 +57,8 @@ public class Main {
 
             ASMBuilder _ASMBuilder = new ASMBuilder(_IRModule);
             _ASMBuilder.visit(_IRModule);
-            RegAllocator _RegAllocator = new RegAllocator();
-            _RegAllocator.RegAllocate(_ASMBuilder.thisASMModule);
+            GraphColoring _RegAllocator = new GraphColoring(_ASMBuilder.thisASMModule);
+            _RegAllocator.RegAllocator();
             ASMPrinter _ASMPrinter = new ASMPrinter();
             _ASMPrinter.PrintMod(_ASMBuilder.thisASMModule);
         } catch (Error er) {
