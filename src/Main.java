@@ -18,15 +18,15 @@ import java.io.InputStream;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-//        InputStream input = System.in;
-        String name = "test.mx";
-        FileInputStream input = new FileInputStream(name);
-//        boolean codegen  = true;
-//        if (args.length>0) {
-//            for (String arg:args) {
-//                if(arg.equals("-semantic")) codegen = false;
-//            }
-//        }
+       InputStream input = System.in;
+//         String name = "test.mx";
+//         FileInputStream input = new FileInputStream(name);
+       boolean codegen  = true;
+       if (args.length>0) {
+           for (String arg:args) {
+               if(arg.equals("-semantic")) codegen = false;
+           }
+       }
         try {
             ProgramNode rt;
             MxstarLexer lexer = new MxstarLexer(CharStreams.fromStream(input));
@@ -45,7 +45,7 @@ public class Main {
             PhysicalReg.Init();
 //            new IRBuilder(global).visit(rt);
 //            throw new RuntimeException();
-//            if(!codegen) return ;
+           if(!codegen) return ;
             IRBuilder _IRBuilder = new IRBuilder(global);
             _IRBuilder.visit(rt);
 
@@ -57,8 +57,8 @@ public class Main {
 
             ASMBuilder _ASMBuilder = new ASMBuilder(_IRModule);
             _ASMBuilder.visit(_IRModule);
-            RegAllocator _RegAllocator = new RegAllocator();
-            _RegAllocator.RegAllocate(_ASMBuilder.thisASMModule);
+            GraphColoring _RegAllocator = new GraphColoring(_ASMBuilder.thisASMModule);
+            _RegAllocator.RegAllocator();
             ASMPrinter _ASMPrinter = new ASMPrinter();
             _ASMPrinter.PrintMod(_ASMBuilder.thisASMModule);
         } catch (Error er) {
