@@ -5,7 +5,7 @@ import ASM.ASMInst;
 import ASM.Operand.VirtualReg;
 
 public class ASMMvInst extends ASMInst {
-    VirtualReg rd,rs;
+    public VirtualReg rd,rs;
     public ASMMvInst(VirtualReg rd, VirtualReg rs, ASMBasicBlock bel) {
         super(bel);
         this.rd = rd;

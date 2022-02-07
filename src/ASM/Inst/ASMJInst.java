@@ -9,7 +9,8 @@ public class ASMJInst extends ASMInst {
     public ASMJInst(ASMBasicBlock goal,ASMBasicBlock bel) {
         super(bel);
         this.goal = goal;
-
+//        goal.prec.add(bel);
+//        bel.succ.add(bel);
     }
     @Override
     public String toString(){

@@ -34,6 +34,5 @@ public class StackFrame{
             ParameterAddr.get(i).offset = new IntImm(offset);
             offset+=4;
         }
-       // SpaceSize = offset;
     }
 }

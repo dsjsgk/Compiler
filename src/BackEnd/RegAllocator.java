@@ -71,8 +71,12 @@ public class RegAllocator {
             curStk.LocalRegAddr = new ArrayList<>(Addr_Map.values());
             curStk.Init();
             if(curStk.SpaceSize!=0) {
-                thisFunc.entry.addFront(new ASMBinaryInst(PhysicalReg.getv("sp"), PhysicalReg.getv("sp"), null, new IntImm(-curStk.SpaceSize), ASMBinaryInst.Op.addi, thisFunc.entry));
-                thisFunc.exit.addBefore(thisFunc.exit.Inst_end, new ASMBinaryInst(PhysicalReg.getv("sp"), PhysicalReg.getv("sp"), null, new IntImm(curStk.SpaceSize), ASMBinaryInst.Op.addi, thisFunc.entry));
+                VirtualReg tempReg = PhysicalReg.getv("s7");
+                thisFunc.entry.addFront(new ASMBinaryInst(PhysicalReg.getv("sp"), PhysicalReg.getv("sp"), tempReg,null, ASMBinaryInst.Op.add, thisFunc.entry));
+                thisFunc.entry.addFront(new ASMLiInst(tempReg,new IntImm(-curStk.SpaceSize),thisFunc.entry));
+                thisFunc.exit.addBefore(thisFunc.exit.Inst_end,new ASMLiInst(tempReg,new IntImm(curStk.SpaceSize),thisFunc.exit));
+                thisFunc.exit.addBefore(thisFunc.exit.Inst_end,new ASMBinaryInst(PhysicalReg.getv("sp"), PhysicalReg.getv("sp"), tempReg,null, ASMBinaryInst.Op.add, thisFunc.exit));
+
             }
         }
     }

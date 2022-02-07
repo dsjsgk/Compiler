@@ -448,7 +448,7 @@ public class IRBuilder implements ASTvisitor {
         operand Son_addr = address.get(tmp.a);
         operand res = new LocalReg("res",trans_to_IRType(tmp.type));
         if(tmp.op.equals("++")) {
-
+//            System.out.println("Fuck");
             if(Son_res ==null) {
                 throw new SemanticError("Strange operand of ++",tmp.pos);
             }
@@ -469,7 +469,7 @@ public class IRBuilder implements ASTvisitor {
             }
         }
         else throw new SemanticError("Unknown Suffix Operator",tmp.pos);
-        result.put(tmp,res);
+        result.put(tmp,Son_res);
         address.put(tmp,null);
     }
 
@@ -503,7 +503,7 @@ public class IRBuilder implements ASTvisitor {
         }
         else throw new SemanticError("Unknown Suffix Operator",tmp.pos);
         result.put(tmp,res);
-        address.put(tmp,Son_addr);
+        address.put(tmp,null);
     }
 
     @Override
@@ -607,9 +607,10 @@ public class IRBuilder implements ASTvisitor {
         }
         else {
             tmp.a.accept(this);
-            tmp.b.accept(this);
+            tmp.b.accept(this);//System.out.println(result.containsKey(tmp.b));
             operand loperand = result.get(tmp.a);
             operand laddr = address.get(tmp.a);
+
             operand roperand = result.get(tmp.b);
             operand res = new LocalReg("result",trans_to_IRType(tmp.type));
 

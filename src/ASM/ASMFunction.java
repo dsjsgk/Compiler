@@ -24,6 +24,17 @@ public class ASMFunction extends ASMBase{
             ptr = ptr.nxt_block;
             tot++;
         }
+        ptr = thisFunc.entry;
+        while(ptr!=null) {
+            for(BasicBlock prec:ptr.predecessors) {
+                BlockMap.get(ptr).prec.add(BlockMap.get(prec));
+            }
+            for(BasicBlock succ:ptr.successors) {
+                BlockMap.get(ptr).succ.add(BlockMap.get(succ));
+            }
+            ptr = ptr.nxt_block;
+        }
+
     }
     public void addBlock(ASMBasicBlock block) {
         if(entry == null) {
