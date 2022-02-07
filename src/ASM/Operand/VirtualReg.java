@@ -2,7 +2,7 @@ package ASM.Operand;
 
 public class VirtualReg extends ASMRegister{
     public String Identifier;
-    public PhysicalReg Allocated_Reg;
+    public PhysicalReg Allocated_Reg = null;
     public VirtualReg(String Identifier,PhysicalReg Allocated_Reg){
         this.Allocated_Reg = Allocated_Reg;
         this.Identifier = Identifier;

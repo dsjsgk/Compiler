@@ -49,6 +49,7 @@ public class GraphColoring {
     HashMap<VirtualReg,HashSet<ASMMvInst> > moveList = new HashMap<>();
     HashMap<VirtualReg,VirtualReg> alias = new HashMap<>();
     HashMap<VirtualReg,PhysicalReg> color = new HashMap<>();
+    HashSet<VirtualReg> isSpilled = new HashSet<>();
 
 
     public void livenessanalysis(ASMFunction thisFunc) {
@@ -156,7 +157,7 @@ public class GraphColoring {
             }
             else simplifyWorklist.add(n);
         }
-        initial_reg.clear();
+//        initial_reg.clear();
     }
     public HashSet<VirtualReg> Adjacent(VirtualReg n) {
         HashSet<VirtualReg> temp = new HashSet<>(adjList.get(n));
@@ -167,6 +168,9 @@ public class GraphColoring {
     public HashSet<ASMMvInst> NodeMoves(VirtualReg n) {
         HashSet<ASMMvInst> temp = new HashSet<>(worklistMoves);
         temp.addAll(activeMoves);
+//        if(!moveList.containsKey(n)) {
+//            System.out.println("fuck");
+//        }
         temp.retainAll(moveList.get(n));
         return temp;
     }
@@ -308,6 +312,8 @@ public class GraphColoring {
         VirtualReg res = null;
         int cur = -1;
         for(VirtualReg tmp:spillWorklist) {
+//            if(isSpilled.contains(tmp)) continue;
+
             if(degree.get(tmp)>cur) {
                 cur = degree.get(tmp);
                 res = tmp;
@@ -332,6 +338,7 @@ public class GraphColoring {
             for(int i=5;i<32;++i) if(!vis[i]) ok = i;
             if(ok==-1) {
                 spilled_reg.add(top);
+//                System.out.println(top);
             }
             else {
                 colored_reg.add(top);
@@ -360,7 +367,7 @@ public class GraphColoring {
     }
     public void DoThisFunc(ASMFunction thisFunc) {
 //        thisFunc.stk.SpaceSize = 0;
-
+//        System.out.println(thisFunc.Identifier);
         live_in_reg = new HashMap<>();
         live_out_reg = new HashMap<>();
         block_def = new HashMap<>();
@@ -391,17 +398,27 @@ public class GraphColoring {
         while(curBlock!=null) {
             ASMInst curptr = curBlock.Inst_begin;
             while(curptr!=null) {
+                ASMInst finalCurptr = curptr;
                 curptr._rd.forEach(x->{
                     if(x.Allocated_Reg!=null) {
                         precolored_reg.add(x);
                     }
-                    else initial_reg.add(x);
+                    else {
+//                        System.out.println(x.Identifier);
+                        initial_reg.add(x);
+                    }
+//                    if(x.toString().equals("[v]Save23")) {
+//                        System.out.println(finalCurptr.toString());
+//                    }
                 });
                 curptr._rs.forEach(x->{
                     if(x.Allocated_Reg!=null) {
                         precolored_reg.add(x);
                     }
                     else initial_reg.add(x);
+//                    if(x.toString().equals("[v]Save23")) {
+//                        System.out.println(finalCurptr.toString());
+//                    }
                 });
                 curptr = curptr.Nxt;
             }
@@ -431,16 +448,23 @@ public class GraphColoring {
         }
         AssignColors();
         if(spilled_reg.size()!=0) {
+            for(VirtualReg tmp:initial_reg){
+                tmp.Allocated_Reg = null;
+            }
             RewriteProgram(spilled_reg,thisFunc);
             DoThisFunc(thisFunc);
         }
     }
     HashMap<VirtualReg,Integer> Imm_Map = new HashMap<>();
     public void RewriteProgram(HashSet<VirtualReg> NodeList,ASMFunction thisFunc) {
+//        System.out.println("Fuck");
+        Imm_Map.clear();
         for(VirtualReg thisReg:NodeList) {
+//            System.out.println(thisReg.Identifier);
             if(!Imm_Map.containsKey(thisReg)){
                 Imm_Map.put(thisReg,thisFunc.stk.SpaceSize);
                 thisFunc.stk.SpaceSize+=4;
+//                System.out.println(thisReg.Identifier);
             }
         }
         ASMBasicBlock curBlock = thisFunc.entry;
@@ -449,9 +473,15 @@ public class GraphColoring {
             while(curInst != null) {
                 for (VirtualReg r : curInst._rs) {
                     if(!NodeList.contains(r)) continue;
+//                    System.out.println(r.toString());
+//                    System.out.println(r.Identifier);
+//                    System.out.println(curInst.toString());
                     VirtualReg tempReg1 = new VirtualReg("temp1");
                     VirtualReg tempReg2 = new VirtualReg("temp2");
                     VirtualReg tempReg3 = new VirtualReg("temp3");
+                    isSpilled .add(tempReg1);
+                    isSpilled .add(tempReg2);
+                    isSpilled .add(tempReg3);
                     curInst.replaceRs(r,tempReg3);
                     curBlock.addBefore(curInst,new ASMLiInst(tempReg1,new IntImm(Imm_Map.get(r)),curBlock));
                     curBlock.addBefore(curInst,new ASMBinaryInst(tempReg2,tempReg1,PhysicalReg.getv("sp"),null,ASMBinaryInst.Op.add,curBlock));
@@ -462,6 +492,9 @@ public class GraphColoring {
                     VirtualReg tempReg1 = new VirtualReg("temp1");
                     VirtualReg tempReg2 = new VirtualReg("temp2");
                     VirtualReg tempReg3 = new VirtualReg("temp3");
+                    isSpilled .add(tempReg1);
+                    isSpilled .add(tempReg2);
+                    isSpilled .add(tempReg3);
                     curInst.replaceRd(r,tempReg3);
                     curBlock.addAfter(curInst,new ASMStoreInst(tempReg3,new ASMAddress(tempReg2,new IntImm(0)), ASMStoreInst.Op.sw,curBlock));
                     curBlock.addAfter(curInst,new ASMBinaryInst(tempReg2,tempReg1,PhysicalReg.getv("sp"),null,ASMBinaryInst.Op.add,curBlock));
@@ -485,6 +518,7 @@ public class GraphColoring {
             thisFunc.exit.addBefore(thisFunc.exit.Inst_end,new ASMBinaryInst(PhysicalReg.getv("sp"), PhysicalReg.getv("sp"),size2,null, ASMBinaryInst.Op.add, thisFunc.exit));
             thisFunc.stk.SpaceSize = 0;
             thisFunc.stk.InitInit();
+            isSpilled = new HashSet<>();
             DoThisFunc(thisFunc);
             thisFunc.stk.Init();
 //            System.out.println(thisFunc.stk.SpaceSize);
