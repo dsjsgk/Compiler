@@ -21,6 +21,7 @@ public class ASMBuilder implements IRvisitor {
     public ASMFunction curFunc;
     public ASMBasicBlock curBlock;
     public HashMap<operand,VirtualReg> RegsMap = new HashMap<>();
+    public HashMap<register,VirtualReg> Addr_to_Vir = new HashMap<>();
     public VirtualReg ret_addr = null;
     public ASMBuilder(IRModule x) {
         thisIRModule = x;
@@ -184,10 +185,11 @@ public class ASMBuilder implements IRvisitor {
     }
     @Override
     public void visit(AllocaInst tmp){
-        ArrayList<operand> paras = new ArrayList<>();
-        paras.add(new IntConst(tmp.tp.size(),new IntType(32)));
-        CallFuncInst mallocInst = new CallFuncInst(thisIRModule.Sys_Funcs.get("mx_malloc"),tmp.res,paras,null);
-        mallocInst.accept(this);
+        Addr_to_Vir.put(tmp.res,new VirtualReg(tmp.res.id+"VirReg"));
+//        ArrayList<operand> paras = new ArrayList<>();
+//        paras.add(new IntConst(tmp.tp.size(),new IntType(32)));
+//        CallFuncInst mallocInst = new CallFuncInst(thisIRModule.Sys_Funcs.get("mx_malloc"),tmp.res,paras,null);
+//        mallocInst.accept(this);
     }
     @Override
     public void visit(BitCastInst tmp){
@@ -318,6 +320,11 @@ public class ASMBuilder implements IRvisitor {
     }
     @Override
     public void visit(LoadInst tmp){
+        if(Addr_to_Vir.containsKey(tmp.addr)) {
+            VirtualReg rd = getVirtualReg(tmp.res);
+            curBlock.addBack(new ASMMvInst(rd,Addr_to_Vir.get(tmp.addr),curBlock));
+            return ;
+        }
         if(tmp.addr instanceof GlobalReg)
         {
             VirtualReg rd = getVirtualReg(tmp.res);
@@ -376,6 +383,11 @@ public class ASMBuilder implements IRvisitor {
     }
     @Override
     public void visit(StoreInst tmp){
+        if(Addr_to_Vir.containsKey(tmp.addr)) {
+            VirtualReg Val = getVirtualReg(tmp.val);
+            curBlock.addBack(new ASMMvInst(Addr_to_Vir.get(tmp.addr),Val,curBlock));
+            return ;
+        }
         if(tmp.addr instanceof GlobalReg) {
             VirtualReg Val = getVirtualReg(tmp.val);
             ASMGlobalVar thisVar = thisASMModule.GlobalVars.get(((GlobalReg) tmp.addr).id);
