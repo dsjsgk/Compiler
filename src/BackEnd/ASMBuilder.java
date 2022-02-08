@@ -185,15 +185,15 @@ public class ASMBuilder implements IRvisitor {
     }
     @Override
     public void visit(AllocaInst tmp){
-        if((tmp.tp instanceof IntType )&&((IntType) tmp.tp).size>8) {
+//         if((tmp.tp instanceof IntType )&&((IntType) tmp.tp).size>8) {
             Addr_to_Vir.put(tmp.res, new VirtualReg(tmp.res.id + "VirReg"));
-        }
-        else {
-            ArrayList<operand> paras = new ArrayList<>();
-            paras.add(new IntConst(tmp.tp.size(),new IntType(32)));
-            CallFuncInst mallocInst = new CallFuncInst(thisIRModule.Sys_Funcs.get("mx_malloc"),tmp.res,paras,null);
-            mallocInst.accept(this);
-        }
+//         }
+//         else {
+//             ArrayList<operand> paras = new ArrayList<>();
+//             paras.add(new IntConst(tmp.tp.size(),new IntType(32)));
+//             CallFuncInst mallocInst = new CallFuncInst(thisIRModule.Sys_Funcs.get("mx_malloc"),tmp.res,paras,null);
+//             mallocInst.accept(this);
+//         }
     }
     @Override
     public void visit(BitCastInst tmp){
